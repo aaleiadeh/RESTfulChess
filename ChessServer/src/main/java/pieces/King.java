@@ -2,6 +2,7 @@ package pieces;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 
 import chess.Board;
 import chess.Tile;
@@ -58,8 +59,29 @@ public class King extends Piece{
 			}
 			
 			if(counter == 1) {
-				
-			} else {//Double Check. Only King can move
+				for(Piece piece : oppPieces) {
+					if(piece.occupiedTile == null)
+						continue;
+					if(piece.viableTiles.contains(this.occupiedTile)) {
+						if(piece instanceof Pawn || piece instanceof Knight) {
+							for(Piece ally : allyPieces) {
+								if(ally.occupiedTile == null || ally instanceof King)
+									continue;
+								Iterator<Tile> iterator = ally.viableTiles.iterator();
+								while(iterator.hasNext()) {
+									Tile tile = iterator.next();
+									if(tile != piece.occupiedTile)
+										iterator.remove();
+								}
+								ally.updatejson();
+							}
+						} else {
+							
+						}
+						break;
+					}
+				}
+			} else {//Double Check. Only King can move. Counter cant be 0 since inCheck()
 				for(Piece piece : allyPieces) {
 					if(piece.occupiedTile == null || piece instanceof King)
 						continue;
