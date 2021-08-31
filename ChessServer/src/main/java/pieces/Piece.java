@@ -16,6 +16,7 @@ public abstract class Piece
 	@JsonIgnore public Board game;
 	@JsonIgnore public ArrayList<Tile> viableTiles;
 	@JsonIgnore public HashSet<String> threat;
+	@JsonIgnore public HashSet<String> pathToKing;
 	@JsonIgnore public Tile occupiedTile;
 	public char name;
 	public String viable;

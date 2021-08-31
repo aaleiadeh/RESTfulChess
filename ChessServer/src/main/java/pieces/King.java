@@ -44,5 +44,36 @@ public class King extends Piece{
 				}
 			}
 		}
+		
+		if(inCheck())
+		{
+			ArrayList<Piece> oppPieces = this.isWhite ? game.blackPieces : game.whitePieces;
+			ArrayList<Piece> allyPieces = this.isWhite ? game.whitePieces : game.blackPieces;
+			int counter = 0;
+			for(Piece piece : oppPieces) {
+				if(piece.occupiedTile == null)
+					continue;
+				if(piece.viableTiles.contains(this.occupiedTile))
+					counter++;
+			}
+			
+			if(counter == 1) {
+				
+			} else {//Double Check. Only King can move
+				for(Piece piece : allyPieces) {
+					if(piece.occupiedTile == null || piece instanceof King)
+						continue;
+					piece.viableTiles.clear();
+					piece.updatejson();
+				}
+			}
+		}
+	}
+	
+	public boolean inCheck() {
+		HashSet<String> oppSet = isWhite ? game.blackThreat : game.whiteThreat;
+		if(oppSet.contains(this.occupiedTile.toString()))
+			return true;
+		return false;
 	}
 }

@@ -10,8 +10,8 @@ public class Board
 	public Tile[][] board = new Tile[8][8];
 	public int id;
 	public String moveData;
-	public ArrayList<Piece> white;
-	public ArrayList<Piece> black;
+	public ArrayList<Piece> whitePieces;
+	public ArrayList<Piece> blackPieces;
 	public HashSet<String> whiteThreat;
 	public HashSet<String> blackThreat;
 	public Piece whiteKing;
@@ -25,8 +25,8 @@ public class Board
 				board[x][y] = new Tile(x,y);
 			}
 		}
-		white = new ArrayList<Piece>(16);
-		black = new ArrayList<Piece>(16);
+		whitePieces = new ArrayList<Piece>(16);
+		blackPieces = new ArrayList<Piece>(16);
 		whiteThreat = new HashSet<String>();
 		blackThreat = new HashSet<String>();
 	}
@@ -66,80 +66,80 @@ public class Board
 	{
 		board[0][7].occupyingPiece = new Rook(false, this); //Set up black backrow
 		board[0][7].occupyingPiece.occupiedTile = board[0][7];
-		black.add(board[0][7].occupyingPiece);
+		blackPieces.add(board[0][7].occupyingPiece);
 		
 		board[1][7].occupyingPiece = new Knight(false, this);
 		board[1][7].occupyingPiece.occupiedTile = board[1][7];
-		black.add(board[1][7].occupyingPiece);
+		blackPieces.add(board[1][7].occupyingPiece);
 		
 		board[2][7].occupyingPiece = new Bishop(false, this);
 		board[2][7].occupyingPiece.occupiedTile = board[2][7];
-		black.add(board[2][7].occupyingPiece);
+		blackPieces.add(board[2][7].occupyingPiece);
 		
 		board[3][7].occupyingPiece = new Queen(false, this);
 		board[3][7].occupyingPiece.occupiedTile = board[3][7];
-		black.add(board[3][7].occupyingPiece);
+		blackPieces.add(board[3][7].occupyingPiece);
 		
 		board[4][7].occupyingPiece = new King(false, this);
 		board[4][7].occupyingPiece.occupiedTile = board[4][7];
-		black.add(board[4][7].occupyingPiece);
+		blackPieces.add(board[4][7].occupyingPiece);
 		blackKing = board[4][7].occupyingPiece;
 		
 		board[5][7].occupyingPiece = new Bishop(false, this);
 		board[5][7].occupyingPiece.occupiedTile = board[5][7];
-		black.add(board[5][7].occupyingPiece);
+		blackPieces.add(board[5][7].occupyingPiece);
 		
 		board[6][7].occupyingPiece = new Knight(false, this);
 		board[6][7].occupyingPiece.occupiedTile = board[6][7];
-		black.add(board[6][7].occupyingPiece);
+		blackPieces.add(board[6][7].occupyingPiece);
 		
 		board[7][7].occupyingPiece = new Rook(false, this);
 		board[7][7].occupyingPiece.occupiedTile = board[7][7];
-		black.add(board[7][7].occupyingPiece);
+		blackPieces.add(board[7][7].occupyingPiece);
 		
 		
 		
 		board[0][0].occupyingPiece = new Rook(true, this);//Set up white backrow
 		board[0][0].occupyingPiece.occupiedTile = board[0][0];
-		white.add(board[0][0].occupyingPiece);
+		whitePieces.add(board[0][0].occupyingPiece);
 		
 		board[1][0].occupyingPiece = new Knight(true, this);
 		board[1][0].occupyingPiece.occupiedTile = board[1][0];
-		white.add(board[1][0].occupyingPiece);
+		whitePieces.add(board[1][0].occupyingPiece);
 		
 		board[2][0].occupyingPiece = new Bishop(true, this);
 		board[2][0].occupyingPiece.occupiedTile = board[2][0];
-		white.add(board[2][0].occupyingPiece);
+		whitePieces.add(board[2][0].occupyingPiece);
 		
 		board[3][0].occupyingPiece = new Queen(true, this);
 		board[3][0].occupyingPiece.occupiedTile = board[3][0];
-		white.add(board[3][0].occupyingPiece);
+		whitePieces.add(board[3][0].occupyingPiece);
 		
 		board[4][0].occupyingPiece = new King(true, this);
 		board[4][0].occupyingPiece.occupiedTile = board[4][0];
-		white.add(board[4][0].occupyingPiece);
+		whitePieces.add(board[4][0].occupyingPiece);
 		whiteKing = board[4][0].occupyingPiece;
 		
 		board[5][0].occupyingPiece = new Bishop(true, this);
 		board[5][0].occupyingPiece.occupiedTile = board[5][0];
-		white.add(board[5][0].occupyingPiece);
+		whitePieces.add(board[5][0].occupyingPiece);
 		
 		board[6][0].occupyingPiece = new Knight(true, this);
 		board[6][0].occupyingPiece.occupiedTile = board[6][0];
-		white.add(board[6][0].occupyingPiece);
+		whitePieces.add(board[6][0].occupyingPiece);
 		
 		board[7][0].occupyingPiece = new Rook(true, this);
 		board[7][0].occupyingPiece.occupiedTile = board[7][0];
-		white.add(board[7][0].occupyingPiece);
+		whitePieces.add(board[7][0].occupyingPiece);
 		
 		for(int i = 0; i < 8; i++)//Set up all pawns
 		{
 			board[i][1].occupyingPiece = new Pawn(true, this);
 			board[i][1].occupyingPiece.occupiedTile = board[i][1];
-			white.add(board[i][1].occupyingPiece);
+			whitePieces.add(board[i][1].occupyingPiece);
 			board[i][6].occupyingPiece = new Pawn(false, this);
 			board[i][6].occupyingPiece.occupiedTile = board[i][6];
-			black.add(board[i][6].occupyingPiece);
+			blackPieces.add(board[i][6].occupyingPiece);
 		}
 		updateAllTiles();
 	}
