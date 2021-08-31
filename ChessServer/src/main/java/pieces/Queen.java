@@ -22,140 +22,389 @@ public class Queen extends Piece{
 		viableTiles.clear();
 		int x = start.posX;
 		int y = start.posY;
+		boolean blocked = false;
+		boolean kingFound = false;
 		while(x < 7)
 		{
 			x++;
-			if(game.board[x][y].occupyingPiece == null)
-				add(game.board[x][y]);
-			else
+			Tile tile = game.board[x][y];
+			if(!blocked)//Standard Move Viability Checking
 			{
-				if(game.board[x][y].occupyingPiece.isWhite != this.isWhite)
-					add(game.board[x][y]);
+				if(tile.occupyingPiece == null)
+				{
+					add(tile);
+					pathToKing.add(tile.toString());
+				}
 				else
-					threat.add(game.board[x][y].toString());
-				break;
+				{
+					if(tile.occupyingPiece.isWhite != this.isWhite) {
+						add(tile);
+						pathToKing.add(tile.toString());
+						if(tile.occupyingPiece instanceof King)
+							kingFound = true;
+						blocked = true;
+					}
+					else { //Blocked by ally piece, no point in searching for pathtoking
+						threat.add(tile.toString());
+						break;
+					}
+				}
+			}
+			else //Standard moves found, just establishing path to king here
+			{
+				if(kingFound)
+					break;
+				if(tile.occupyingPiece != null)
+				{
+					if(tile.occupyingPiece.isWhite == this.isWhite)
+						break;
+					pathToKing.add(tile.toString());
+					if(tile.occupyingPiece instanceof King)
+						kingFound = true;
+				}
+				else
+					pathToKing.add(tile.toString());
 			}
 		}
+		
 		x = start.posX;
-
+		blocked = false;
+		if(!kingFound)
+			pathToKing.clear();
 		while(x > 0)
 		{
 			x--;
-			if(game.board[x][y].occupyingPiece == null)
-				add(game.board[x][y]);
-			else
+			Tile tile = game.board[x][y];
+			if(!blocked)//Standard Move Viability Checking
 			{
-				if(game.board[x][y].occupyingPiece.isWhite != this.isWhite)
-					add(game.board[x][y]);
+				if(tile.occupyingPiece == null)
+				{
+					add(tile);
+					pathToKing.add(tile.toString());
+				}
 				else
-					threat.add(game.board[x][y].toString());
-				break;
+				{
+					if(tile.occupyingPiece.isWhite != this.isWhite) {
+						add(tile);
+						pathToKing.add(tile.toString());
+						if(tile.occupyingPiece instanceof King)
+							kingFound = true;
+						blocked = true;
+					}
+					else { //Blocked by ally piece, no point in searching for pathtoking
+						threat.add(tile.toString());
+						break;
+					}
+				}
+			}
+			else //Standard moves found, just establishing path to king here
+			{
+				if(kingFound)
+					break;
+				if(tile.occupyingPiece != null)
+				{
+					if(tile.occupyingPiece.isWhite == this.isWhite)
+						break;
+					pathToKing.add(tile.toString());
+					if(tile.occupyingPiece instanceof King)
+						kingFound = true;
+				}
+				else
+					pathToKing.add(tile.toString());
 			}
 		}
+		
 		x = start.posX;
-
+		blocked = false;
+		if(!kingFound)
+			pathToKing.clear();
 		while(y < 7)
 		{
 			y++;
-			if(game.board[x][y].occupyingPiece == null)
-				add(game.board[x][y]);
-			else
+			Tile tile = game.board[x][y];
+			if(!blocked)//Standard Move Viability Checking
 			{
-				if(game.board[x][y].occupyingPiece.isWhite != this.isWhite)
-					add(game.board[x][y]);
+				if(tile.occupyingPiece == null)
+				{
+					add(tile);
+					pathToKing.add(tile.toString());
+				}
 				else
-					threat.add(game.board[x][y].toString());
-				break;
+				{
+					if(tile.occupyingPiece.isWhite != this.isWhite) {
+						add(tile);
+						pathToKing.add(tile.toString());
+						if(tile.occupyingPiece instanceof King)
+							kingFound = true;
+						blocked = true;
+					}
+					else { //Blocked by ally piece, no point in searching for pathtoking
+						threat.add(tile.toString());
+						break;
+					}
+				}
+			}
+			else //Standard moves found, just establishing path to king here
+			{
+				if(kingFound)
+					break;
+				if(tile.occupyingPiece != null)
+				{
+					if(tile.occupyingPiece.isWhite == this.isWhite)
+						break;
+					pathToKing.add(tile.toString());
+					if(tile.occupyingPiece instanceof King)
+						kingFound = true;
+				}
+				else
+					pathToKing.add(tile.toString());
 			}
 		}
-		y = start.posY;
 		
+		y = start.posY;
+		blocked = false;
+		if(!kingFound)
+			pathToKing.clear();
 		while(y > 0)
 		{
 			y--;
-			if(game.board[x][y].occupyingPiece == null)
-				add(game.board[x][y]);
-			else
+			Tile tile = game.board[x][y];
+			if(!blocked)//Standard Move Viability Checking
 			{
-				if(game.board[x][y].occupyingPiece.isWhite != this.isWhite)
-					add(game.board[x][y]);
+				if(tile.occupyingPiece == null)
+				{
+					add(tile);
+					pathToKing.add(tile.toString());
+				}
 				else
-					threat.add(game.board[x][y].toString());
-				break;
+				{
+					if(tile.occupyingPiece.isWhite != this.isWhite) {
+						add(tile);
+						pathToKing.add(tile.toString());
+						if(tile.occupyingPiece instanceof King)
+							kingFound = true;
+						blocked = true;
+					}
+					else { //Blocked by ally piece, no point in searching for pathtoking
+						threat.add(tile.toString());
+						break;
+					}
+				}
+			}
+			else //Standard moves found, just establishing path to king here
+			{
+				if(kingFound)
+					break;
+				if(tile.occupyingPiece != null)
+				{
+					if(tile.occupyingPiece.isWhite == this.isWhite)
+						break;
+					pathToKing.add(tile.toString());
+					if(tile.occupyingPiece instanceof King)
+						kingFound = true;
+				}
+				else
+					pathToKing.add(tile.toString());
 			}
 		}
-		y = start.posY;
 		
+		
+		
+		y = start.posY;
+		blocked = false;
+		if(!kingFound)
+			pathToKing.clear();
 		while(x < 7 && y < 7)
 		{
 			x++;
 			y++;
-			if(game.board[x][y].occupyingPiece == null)
-				add(game.board[x][y]);
-			else
+			Tile tile = game.board[x][y];
+			if(!blocked)//Standard Move Viability Checking
 			{
-				if(game.board[x][y].occupyingPiece.isWhite != this.isWhite)
-					add(game.board[x][y]);
+				if(tile.occupyingPiece == null)
+				{
+					add(tile);
+					pathToKing.add(tile.toString());
+				}
 				else
-					threat.add(game.board[x][y].toString());
-				break;
+				{
+					if(tile.occupyingPiece.isWhite != this.isWhite) {
+						add(tile);
+						pathToKing.add(tile.toString());
+						if(tile.occupyingPiece instanceof King)
+							kingFound = true;
+						blocked = true;
+					}
+					else { //Blocked by ally piece, no point in searching for pathtoking
+						threat.add(tile.toString());
+						break;
+					}
+				}
+			}
+			else //Standard moves found, just establishing path to king here
+			{
+				if(kingFound)
+					break;
+				if(tile.occupyingPiece != null)
+				{
+					if(tile.occupyingPiece.isWhite == this.isWhite)
+						break;
+					pathToKing.add(tile.toString());
+					if(tile.occupyingPiece instanceof King)
+						kingFound = true;
+				}
+				else
+					pathToKing.add(tile.toString());
 			}
 		}
+		
 		x = start.posX;
 		y = start.posY;
-		
+		blocked = false;
+		if(!kingFound)
+			pathToKing.clear();
 		while(x > 0 && y > 0)
 		{
 			x--;
 			y--;
-			if(game.board[x][y].occupyingPiece == null)
-				add(game.board[x][y]);
-			else
+			Tile tile = game.board[x][y];
+			if(!blocked)//Standard Move Viability Checking
 			{
-				if(game.board[x][y].occupyingPiece.isWhite != this.isWhite)
-					add(game.board[x][y]);
+				if(tile.occupyingPiece == null)
+				{
+					add(tile);
+					pathToKing.add(tile.toString());
+				}
 				else
-					threat.add(game.board[x][y].toString());
-				break;
+				{
+					if(tile.occupyingPiece.isWhite != this.isWhite) {
+						add(tile);
+						pathToKing.add(tile.toString());
+						if(tile.occupyingPiece instanceof King)
+							kingFound = true;
+						blocked = true;
+					}
+					else { //Blocked by ally piece, no point in searching for pathtoking
+						threat.add(tile.toString());
+						break;
+					}
+				}
+			}
+			else //Standard moves found, just establishing path to king here
+			{
+				if(kingFound)
+					break;
+				if(tile.occupyingPiece != null)
+				{
+					if(tile.occupyingPiece.isWhite == this.isWhite)
+						break;
+					pathToKing.add(tile.toString());
+					if(tile.occupyingPiece instanceof King)
+						kingFound = true;
+				}
+				else
+					pathToKing.add(tile.toString());
 			}
 		}
+		
 		x = start.posX;
 		y = start.posY;
-		
+		blocked = false;
+		if(!kingFound)
+			pathToKing.clear();
 		while(x < 7 && y > 0)
 		{
 			x++;
 			y--;
-			if(game.board[x][y].occupyingPiece == null)
-				add(game.board[x][y]);
-			else
+			Tile tile = game.board[x][y];
+			if(!blocked)//Standard Move Viability Checking
 			{
-				if(game.board[x][y].occupyingPiece.isWhite != this.isWhite)
-					add(game.board[x][y]);
+				if(tile.occupyingPiece == null)
+				{
+					add(tile);
+					pathToKing.add(tile.toString());
+				}
 				else
-					threat.add(game.board[x][y].toString());
-				break;
+				{
+					if(tile.occupyingPiece.isWhite != this.isWhite) {
+						add(tile);
+						pathToKing.add(tile.toString());
+						if(tile.occupyingPiece instanceof King)
+							kingFound = true;
+						blocked = true;
+					}
+					else { //Blocked by ally piece, no point in searching for pathtoking
+						threat.add(tile.toString());
+						break;
+					}
+				}
+			}
+			else //Standard moves found, just establishing path to king here
+			{
+				if(kingFound)
+					break;
+				if(tile.occupyingPiece != null)
+				{
+					if(tile.occupyingPiece.isWhite == this.isWhite)
+						break;
+					pathToKing.add(tile.toString());
+					if(tile.occupyingPiece instanceof King)
+						kingFound = true;
+				}
+				else
+					pathToKing.add(tile.toString());
 			}
 		}
+		
 		x = start.posX;
 		y = start.posY;
-		
+		blocked = false;
+		if(!kingFound)
+			pathToKing.clear();
 		while(x > 0 && y < 7)
 		{
 			x--;
 			y++;
-			if(game.board[x][y].occupyingPiece == null)
-				add(game.board[x][y]);
-			else
+			Tile tile = game.board[x][y];
+			if(!blocked)//Standard Move Viability Checking
 			{
-				if(game.board[x][y].occupyingPiece.isWhite != this.isWhite)
-					add(game.board[x][y]);
+				if(tile.occupyingPiece == null)
+				{
+					add(tile);
+					pathToKing.add(tile.toString());
+				}
 				else
-					threat.add(game.board[x][y].toString());
-				break;
+				{
+					if(tile.occupyingPiece.isWhite != this.isWhite) {
+						add(tile);
+						pathToKing.add(tile.toString());
+						if(tile.occupyingPiece instanceof King)
+							kingFound = true;
+						blocked = true;
+					}
+					else { //Blocked by ally piece, no point in searching for pathtoking
+						threat.add(tile.toString());
+						break;
+					}
+				}
+			}
+			else //Standard moves found, just establishing path to king here
+			{
+				if(kingFound)
+					break;
+				if(tile.occupyingPiece != null)
+				{
+					if(tile.occupyingPiece.isWhite == this.isWhite)
+						break;
+					pathToKing.add(tile.toString());
+					if(tile.occupyingPiece instanceof King)
+						kingFound = true;
+				}
+				else
+					pathToKing.add(tile.toString());
 			}
 		}
-		x = start.posX;
-		y = start.posY;
+		if(!kingFound)
+			pathToKing.clear();
 	}
 }

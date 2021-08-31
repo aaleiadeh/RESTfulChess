@@ -31,6 +31,7 @@ public abstract class Piece
 			threat = game.whiteThreat;
 		else
 			threat = game.blackThreat;
+		pathToKing = new HashSet<String>();
 	}
 	public String getName()
 	{
