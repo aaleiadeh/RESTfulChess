@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
+//Todo: Stack structure for ID recycling
 @RestController
 @CrossOrigin(origins = "http://127.0.0.1:5500")
 public class BoardController {
