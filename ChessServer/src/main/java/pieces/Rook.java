@@ -20,6 +20,7 @@ public class Rook extends Piece{
 	@Override
 	public void updateTiles(Tile start) {
 		viableTiles.clear();
+		pathToKing.clear();
 		int x = start.posX;
 		int y = start.posY;
 		boolean blocked = false;
@@ -33,16 +34,20 @@ public class Rook extends Piece{
 				if(tile.occupyingPiece == null)
 				{
 					add(tile);
+					if(kingFound)
+						continue;
 					pathToKing.add(tile.toString());
 				}
 				else
 				{
 					if(tile.occupyingPiece.isWhite != this.isWhite) {
 						add(tile);
+						blocked = true;
+						if(kingFound)
+							continue;
 						pathToKing.add(tile.toString());
 						if(tile.occupyingPiece instanceof King)
 							kingFound = true;
-						blocked = true;
 					}
 					else { //Blocked by ally piece, no point in searching for pathtoking
 						threat.add(tile.toString());
@@ -80,16 +85,20 @@ public class Rook extends Piece{
 				if(tile.occupyingPiece == null)
 				{
 					add(tile);
+					if(kingFound)
+						continue;
 					pathToKing.add(tile.toString());
 				}
 				else
 				{
 					if(tile.occupyingPiece.isWhite != this.isWhite) {
 						add(tile);
+						blocked = true;
+						if(kingFound)
+							continue;
 						pathToKing.add(tile.toString());
 						if(tile.occupyingPiece instanceof King)
 							kingFound = true;
-						blocked = true;
 					}
 					else { //Blocked by ally piece, no point in searching for pathtoking
 						threat.add(tile.toString());
@@ -127,16 +136,20 @@ public class Rook extends Piece{
 				if(tile.occupyingPiece == null)
 				{
 					add(tile);
+					if(kingFound)
+						continue;
 					pathToKing.add(tile.toString());
 				}
 				else
 				{
 					if(tile.occupyingPiece.isWhite != this.isWhite) {
 						add(tile);
+						blocked = true;
+						if(kingFound)
+							continue;
 						pathToKing.add(tile.toString());
 						if(tile.occupyingPiece instanceof King)
 							kingFound = true;
-						blocked = true;
 					}
 					else { //Blocked by ally piece, no point in searching for pathtoking
 						threat.add(tile.toString());
@@ -174,16 +187,20 @@ public class Rook extends Piece{
 				if(tile.occupyingPiece == null)
 				{
 					add(tile);
+					if(kingFound)
+						continue;
 					pathToKing.add(tile.toString());
 				}
 				else
 				{
 					if(tile.occupyingPiece.isWhite != this.isWhite) {
 						add(tile);
+						blocked = true;
+						if(kingFound)
+							continue;
 						pathToKing.add(tile.toString());
 						if(tile.occupyingPiece instanceof King)
 							kingFound = true;
-						blocked = true;
 					}
 					else { //Blocked by ally piece, no point in searching for pathtoking
 						threat.add(tile.toString());
