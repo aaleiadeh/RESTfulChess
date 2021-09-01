@@ -28,7 +28,7 @@ public class King extends Piece{
 		int x, y;
 		int[] xmove = {1, 1, 1, 0, -1, -1, -1, 0};
 		int[] ymove = {1, 0, -1, -1, -1, 0, 1, 1};
-		HashSet<String> oppSet = isWhite ? game.blackThreat : game.whiteThreat;
+		HashSet<String> oppThreat = isWhite ? game.blackThreat : game.whiteThreat;
 		for(int i = 0; i < 8; i++)
 		{
 			x = start.posX;
@@ -39,38 +39,62 @@ public class King extends Piece{
 			{
 				Tile moveTo = game.board[x][y];
 				if(moveTo.occupyingPiece == null || moveTo.occupyingPiece.isWhite != this.isWhite) {
-					if(!oppSet.contains(moveTo.toString())) {
+					if(!oppThreat.contains(moveTo.toString())) {
 						add(game.board[x][y]);
 					}
 				}
 			}
 		}
 		
+		ArrayList<Piece> oppPieces = this.isWhite ? game.blackPieces : game.whitePieces;
+		ArrayList<Piece> allyPieces = this.isWhite ? game.whitePieces : game.blackPieces;
+		for(Piece enemy : oppPieces) {
+			if(enemy.occupiedTile == null)
+				continue;
+			Piece ptr = null;
+			int counter = 0;
+			for(Piece ally : allyPieces) {
+				if(ally.occupiedTile == null || ally instanceof King)
+					continue;
+				if(enemy.pathToKing.contains(ally.occupiedTile.toString())) {
+					counter++;
+					ptr = ally;
+				}
+			}
+			if(counter == 1) {//Only 1 Piece blocking path to King and therefore must be pinned
+				Iterator<Tile> iterator = ptr.viableTiles.iterator();
+				while(iterator.hasNext()) {
+					Tile tile = iterator.next();
+					if(tile != enemy.occupiedTile && !(enemy.pathToKing.contains(tile.toString())))
+						iterator.remove();
+				}
+				ptr.updatejson();
+			}
+		}
+		
 		if(inCheck())
 		{
-			ArrayList<Piece> oppPieces = this.isWhite ? game.blackPieces : game.whitePieces;
-			ArrayList<Piece> allyPieces = this.isWhite ? game.whitePieces : game.blackPieces;
 			int counter = 0;
-			for(Piece piece : oppPieces) {
-				if(piece.occupiedTile == null)
+			for(Piece enemy : oppPieces) {
+				if(enemy.occupiedTile == null)
 					continue;
-				if(piece.viableTiles.contains(this.occupiedTile))
+				if(enemy.viableTiles.contains(this.occupiedTile))
 					counter++;
 			}
 			
 			if(counter == 1) {
-				for(Piece piece : oppPieces) {
-					if(piece.occupiedTile == null)
+				for(Piece enemy : oppPieces) {
+					if(enemy.occupiedTile == null)
 						continue;
-					if(piece.viableTiles.contains(this.occupiedTile)) {
-						if(piece instanceof Pawn || piece instanceof Knight) {
+					if(enemy.viableTiles.contains(this.occupiedTile)) {
+						if(enemy instanceof Pawn || enemy instanceof Knight) {
 							for(Piece ally : allyPieces) {
 								if(ally.occupiedTile == null || ally instanceof King)
 									continue;
 								Iterator<Tile> iterator = ally.viableTiles.iterator();
 								while(iterator.hasNext()) {
 									Tile tile = iterator.next();
-									if(tile != piece.occupiedTile)
+									if(tile != enemy.occupiedTile)
 										iterator.remove();
 								}
 								ally.updatejson();
@@ -82,7 +106,7 @@ public class King extends Piece{
 								Iterator<Tile> iterator = ally.viableTiles.iterator();
 								while(iterator.hasNext()) {
 									Tile tile = iterator.next();
-									if(tile != piece.occupiedTile && !(piece.pathToKing.contains(tile.toString())))
+									if(tile != enemy.occupiedTile && !(enemy.pathToKing.contains(tile.toString())))
 										iterator.remove();
 								}
 								ally.updatejson();
@@ -92,11 +116,11 @@ public class King extends Piece{
 					}
 				}
 			} else {//Double Check. Only King can move. Counter cant be 0 since inCheck()
-				for(Piece piece : allyPieces) {
-					if(piece.occupiedTile == null || piece instanceof King)
+				for(Piece ally : allyPieces) {
+					if(ally.occupiedTile == null || ally instanceof King)
 						continue;
-					piece.viableTiles.clear();
-					piece.updatejson();
+					ally.viableTiles.clear();
+					ally.updatejson();
 				}
 			}
 		}
