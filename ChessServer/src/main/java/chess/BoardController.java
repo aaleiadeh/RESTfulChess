@@ -1,6 +1,7 @@
 package chess;
 
 import java.util.Hashtable;
+import java.util.Stack;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,14 +16,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class BoardController {
 	public Hashtable<Integer, Board> gameTable = new Hashtable<Integer, Board>();
 	public int id = 0;
+	public Stack<Integer> idStack = new Stack<Integer>();
 	@GetMapping("/newgame")
 	public synchronized BoardData board()
 	{
 		Board game = new Board();
-		game.id = id;
+		if(idStack.isEmpty()) {
+			game.id = id;
+			id++;
+		} else {
+			game.id = idStack.pop();
+		}
 		game.startGame();
 		gameTable.put(game.id, game);
-		id++;
 		return new BoardData(game.getBoard(), game.id);
 	}
 	
@@ -37,8 +43,9 @@ public class BoardController {
 	}
 	
 	@PostMapping("/end")
-	public void endGame(@RequestBody String id) {
-		gameTable.remove(Integer.parseInt(id));
+	public synchronized void endGame(@RequestBody String id) {
+		if(gameTable.remove(Integer.parseInt(id)) != null)
+			idStack.push(Integer.parseInt(id));
 	}
 	
 	@GetMapping("/establish")
@@ -57,6 +64,8 @@ public class BoardController {
 		int x1, y1, x2, y2;
 		int id = Integer.parseInt(moveString.substring(4));
 		Board game = gameTable.get(id);
+		if(game == null)
+			return null;
 		synchronized(game) {
 			game.moveData = moveString.substring(0, 4);
 			x1 = Character.getNumericValue(moveString.charAt(0)) - 10;
@@ -73,6 +82,8 @@ public class BoardController {
 	public MoveData getMove(@RequestParam int id) throws InterruptedException
 	{
 		Board game = gameTable.get(id);
+		if(game == null)
+			return null;
 		synchronized(game) {
 			game.wait();
 			return new MoveData(game.getBoard(), game.moveData);
