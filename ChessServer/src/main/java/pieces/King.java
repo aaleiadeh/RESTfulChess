@@ -76,7 +76,17 @@ public class King extends Piece{
 								ally.updatejson();
 							}
 						} else {
-							
+							for(Piece ally : allyPieces) {
+								if(ally.occupiedTile == null || ally instanceof King)
+									continue;
+								Iterator<Tile> iterator = ally.viableTiles.iterator();
+								while(iterator.hasNext()) {
+									Tile tile = iterator.next();
+									if(tile != piece.occupiedTile && !(piece.pathToKing.contains(tile.toString())))
+										iterator.remove();
+								}
+								ally.updatejson();
+							}
 						}
 						break;
 					}
