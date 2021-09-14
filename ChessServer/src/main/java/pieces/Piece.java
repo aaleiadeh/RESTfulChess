@@ -27,10 +27,7 @@ public abstract class Piece
 		this.isWhite = isWhite;
 		this.game = game;
 		viableTiles = new ArrayList<Tile>();
-		if(isWhite)
-			threat = game.whiteThreat;
-		else
-			threat = game.blackThreat;
+		threat = isWhite ? game.whiteThreat : game.blackThreat;
 		pathToKing = new HashSet<String>();
 	}
 	public String getName()
@@ -64,9 +61,6 @@ public abstract class Piece
 	public void add(Tile tile)
 	{
 		viableTiles.add(tile);
-		if(isWhite)
-			game.whiteThreat.add(tile.toString());
-		else
-			game.blackThreat.add(tile.toString());
+		threat.add(tile.toString());
 	}
 }
