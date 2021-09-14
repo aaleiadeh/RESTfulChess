@@ -6,7 +6,6 @@ import java.util.HashSet;
 import pieces.*;
 public class Board 
 {
-	public boolean isWhiteTurn = true;
 	public Tile[][] board = new Tile[8][8];
 	public int id;
 	public String moveData;
@@ -145,19 +144,38 @@ public class Board
 	}
 	public boolean move(Tile start, Tile end)
 	{
-		if(start == null || end == null)
-			return false;
-		if(start.occupyingPiece == null || !start.occupyingPiece.viableTiles.contains(end))
-			return false;
+		if(start.occupyingPiece instanceof Pawn) {
+			if(start.posX != end.posX) {
+				if(end.occupyingPiece == null) {//enpassant
+					int side = start.occupyingPiece.isWhite ? -1 : 1;
+					Tile tile = board[end.posX][end.posY+(1*side)];
+					tile.occupyingPiece.occupiedTile = null;
+					tile.occupyingPiece = null;
+				}
+			}
+		}
+		for(Piece piece : whitePieces) {
+			if(piece instanceof Pawn)
+				((Pawn) (piece)).enpassantable = false;
+		}
+		for(Piece piece : blackPieces) {
+			if(piece instanceof Pawn)
+				((Pawn) (piece)).enpassantable = false;
+		}
+		if(start.occupyingPiece instanceof Pawn) {
+			if(Math.abs(start.posY-end.posY) == 2)//DoubleStep
+				((Pawn) start.occupyingPiece).enpassantable = true;
+		}
+		
 		if(end.occupyingPiece != null)
 			end.occupyingPiece.occupiedTile = null;
 		end.occupyingPiece = start.occupyingPiece;
 		start.occupyingPiece = null;
-		end.occupyingPiece.actionsTaken++;
 		end.occupyingPiece.occupiedTile = end;
+		end.occupyingPiece.actionsTaken++;
+		
 		updateAllTiles();
 		//drawBoard();
-		isWhiteTurn = !isWhiteTurn;
 		return true;
 	}
 	

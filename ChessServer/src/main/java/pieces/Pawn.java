@@ -1,5 +1,7 @@
 package pieces;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import chess.Board;
 import chess.Tile;
 /**
@@ -7,14 +9,12 @@ import chess.Tile;
  * @author Ahmad
  */
 public class Pawn extends Piece{
-	/**
-	 * Creates Pawn of specified color in specified board
-	 * @param isWhite Color of Pawn
-	 * @param game Reference to residing Board
-	 */
+	
+	@JsonIgnore public boolean enpassantable;
 	public Pawn(boolean isWhite, Board game) {
 		super(isWhite, game);
 		name = 'P';
+		enpassantable = false;
 	}
 	
 	@Override
@@ -32,31 +32,43 @@ public class Pawn extends Piece{
 			}
 			if(start.posX < 7)
 			{
+				Piece neighborPiece = game.board[start.posX+1][start.posY].occupyingPiece;
 				Tile capture = game.board[start.posX+1][start.posY+(1*side)];
 				Piece piece = capture.occupyingPiece;
 				if(piece != null) {
 					if(piece.isWhite != this.isWhite)
-						add(capture);
-					else
-						threat.add(capture.toString());
+						viableTiles.add(capture);
 				}
 				else {
-					threat.add(capture.toString());
+					if(neighborPiece instanceof Pawn) {
+						if(neighborPiece.isWhite != this.isWhite) {
+							if(((Pawn) neighborPiece).enpassantable) {
+								viableTiles.add(capture);
+							}
+						}
+					}
 				}
+				threat.add(capture.toString());
 			}
 			if(start.posX > 0)
 			{
+				Piece neighborPiece = game.board[start.posX-1][start.posY].occupyingPiece;
 				Tile capture = game.board[start.posX-1][start.posY+(1*side)];
 				Piece piece = capture.occupyingPiece;
 				if(piece != null) {
 					if(piece.isWhite != this.isWhite)
-						add(capture);
-					else
-						threat.add(capture.toString());
+						viableTiles.add(capture);
 				}
 				else {
-					threat.add(capture.toString());
+					if(neighborPiece instanceof Pawn) {
+						if(neighborPiece.isWhite != this.isWhite) {
+							if(((Pawn) neighborPiece).enpassantable) {
+								viableTiles.add(capture);
+							}
+						}
+					}
 				}
+				threat.add(capture.toString());
 			}
 		}
 	}
