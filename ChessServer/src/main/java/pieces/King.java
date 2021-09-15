@@ -11,17 +11,11 @@ import chess.Tile;
  * @author Ahmad
  */
 public class King extends Piece{
-	/**
-	 * Creates King of specified color in specified board
-	 * @param isWhite Color of King
-	 * @param game Reference to residing Board
-	 */
 	public King(boolean isWhite, Board game) {
 		super(isWhite, game);
 		name = 'K';
 	}
-//Todo: if under threat by 2. only king can move
-	//  if under threat by 1. only king can move. pieces can only move if eliminate threat or block it
+
 	@Override
 	public void updateTiles(Tile start) {
 		viableTiles.clear();
@@ -132,4 +126,10 @@ public class King extends Piece{
 			return true;
 		return false;
 	}
+	
+	/*public boolean checkmate() {
+		if(inCheck() && this.viableTiles.isEmpty())
+			return true;
+		return false;
+	}*/
 }
