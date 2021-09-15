@@ -80,8 +80,8 @@ function addListeners() {
   elementsquares.forEach((square) => {
     square.addEventListener("click", (event) => {
       if (turn) {
-        if (movearr != null) {
-          if (isMoving) {
+        if (isMoving) {
+          if (movearr != null) {
             if (
               movearr.includes(square.getAttribute("data-square").toUpperCase())
             ) {
@@ -93,6 +93,19 @@ function addListeners() {
               clearHighlighting();
               sendMove(start + end + id);
               turn = false;
+
+              //enpassant
+              //Moving diagonal to empty square
+              if (start.charAt(0) != end.charAt(0)) {
+                const enpassantTile = document.querySelector(
+                  "[data-square=" +
+                    CSS.escape(end.charAt(0) + start.charAt(1)) +
+                    "]"
+                );
+                const enpassantPiece =
+                  enpassantTile.querySelector("[data-piece");
+                enpassantTile.removeChild(enpassantPiece);
+              }
             } else {
               isMoving = false;
               clearHighlighting();
@@ -138,14 +151,15 @@ function startNewGame() {
   fetch("http://localhost:8080/newgame")
     .then((response) => response.json())
     .then((data) => {
+      //console.log(data);
       tilesdata = data.tiles;
       id = data.id;
       color = "w";
       turn = true;
 
       url += "?id=" + id;
-      gamelink.href = url;
-      gamelink.innerHTML = url;
+      document.querySelector("#gamelink").href = url;
+      document.querySelector("#gamelink").innerHTML = url;
 
       establishConnection(id);
     });
@@ -213,5 +227,23 @@ function getMove(id) {
       }
       end.appendChild(startpiece);
       turn = true;
+
+      //enpassant
+      if (startpiece.getAttribute("data-piece").charAt(1) === "P") {
+        startString = start.getAttribute("data-square");
+        endString = end.getAttribute("data-square");
+        if (startString.charAt(0) != endString.charAt(0)) {
+          if (endpiece === null) {
+            const enpassantTile = document.querySelector(
+              "[data-square=" +
+                CSS.escape(endString.charAt(0) + startString.charAt(1)) +
+                "]"
+            );
+            enpassantTile.removeChild(
+              enpassantTile.querySelector("[data-piece]")
+            );
+          }
+        }
+      }
     });
 }
