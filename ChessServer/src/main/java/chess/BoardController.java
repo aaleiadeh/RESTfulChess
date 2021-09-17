@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-//Todo: Stack structure for ID recycling
+
+//Todo: Make links expire
 @RestController
 @CrossOrigin(origins = "http://127.0.0.1:5500")
 public class BoardController {
@@ -36,6 +36,8 @@ public class BoardController {
 	public Tile[][] join(@RequestParam int id)
 	{
 		Board game = gameTable.get(id);
+		if(game == null)
+			return null;
 		synchronized(game) {
 			game.notify();
 		}
@@ -52,6 +54,8 @@ public class BoardController {
 	public void establish(@RequestParam int id) throws InterruptedException
 	{
 		Board game = gameTable.get(id);
+		if(game == null)
+			return;
 		synchronized(game) {
 			game.wait();
 			return;

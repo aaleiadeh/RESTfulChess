@@ -144,9 +144,10 @@ public class Board
 	}
 	public boolean move(Tile start, Tile end)
 	{
+		//Enpassant
 		if(start.occupyingPiece instanceof Pawn) {
 			if(start.posX != end.posX) {
-				if(end.occupyingPiece == null) {//enpassant
+				if(end.occupyingPiece == null) {
 					int side = start.occupyingPiece.isWhite ? -1 : 1;
 					Tile tile = board[end.posX][end.posY+(1*side)];
 					tile.occupyingPiece.occupiedTile = null;
@@ -167,13 +168,37 @@ public class Board
 				((Pawn) start.occupyingPiece).enpassantable = true;
 		}
 		
+		//Castling
+		if(start.occupyingPiece instanceof King) {
+			int direction = end.posX - start.posX;
+			if(direction == 2) {//Right Side Castling
+				Tile rightRookTile = board[end.posX+1][end.posY];
+				Piece rightRook = rightRookTile.occupyingPiece;
+				Tile moveTo = board[end.posX-1][end.posY];
+				
+				moveTo.occupyingPiece = rightRook;
+				rightRookTile.occupyingPiece = null;
+				rightRook.occupiedTile = moveTo;
+				rightRook.actionsTaken++;
+			}
+			if(direction == -2) {//Left Side Castling
+				Tile leftRookTile = board[end.posX-2][end.posY];
+				Piece leftRook = leftRookTile.occupyingPiece;
+				Tile moveTo = board[end.posX+1][end.posY];
+				
+				moveTo.occupyingPiece = leftRook;
+				leftRookTile.occupyingPiece = null;
+				leftRook.occupiedTile = moveTo;
+				leftRook.actionsTaken++;
+			}
+		}
+		
 		if(end.occupyingPiece != null)
 			end.occupyingPiece.occupiedTile = null;
 		end.occupyingPiece = start.occupyingPiece;
 		start.occupyingPiece = null;
 		end.occupyingPiece.occupiedTile = end;
 		end.occupyingPiece.actionsTaken++;
-		
 		updateAllTiles();
 		//drawBoard();
 		return true;
