@@ -1,21 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chess App</title>
+    <link rel="stylesheet" href="css/chessboard-1.0.0.min.css" />
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/chessboard-1.0.0.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chess App</title>
-  <link rel="stylesheet" href="css/chessboard-1.0.0.min.css" />
-  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-  <script src="js/chessboard-1.0.0.min.js"></script>
-  <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-  <button id = "newgame">Create New Game</button>
-  <a id = "gamelink" href=""></a>
-  <div id="board1" style="width: 400px"></div>
-  <script src="main.js"></script>
-</body>
+  <body>
+    <h1>RESTful Chess</h1>
+    <hr />
+    <div id="board1" style="width: 600px"></div>
+    <div id="newgame">
+      <button id="createbtn">Create New Game</button>
+      <p id="instructions"></p>
+      <a id="gamelink" href=""></a>
+    </div>
+    <script src="main.js"></script>
+  </body>
 </html>
