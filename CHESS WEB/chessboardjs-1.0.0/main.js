@@ -150,17 +150,16 @@ function startNewGame() {
   fetch("http://localhost:8080/newgame")
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       tilesdata = data.tiles;
       id = data.id;
       color = "w";
       turn = true;
 
       url += "?id=" + id;
-      document.querySelector("#gamelink").href = url;
-      document.querySelector("#gamelink").innerHTML = url;
       document.querySelector("#instructions").innerHTML =
         "Give this link to a friend:";
+      document.querySelector("#gamelink").href = url;
+      document.querySelector("#gamelink").innerHTML = url;
       establishConnection(id);
     });
 }
@@ -192,8 +191,7 @@ function establishConnection(id) {
   fetch(`http://localhost:8080/establish?id=${id}`).then(() => {
     board1 = ChessBoard("board1", "start");
     addListeners();
-    document.querySelector("#gamelink").remove();
-    document.querySelector("#instructions").remove();
+    document.querySelector("#newgame").remove();
   });
 }
 
@@ -201,18 +199,16 @@ function sendMove(move) {
   fetch("http://localhost:8080/send", {
     method: "POST",
     body: move,
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      tilesdata = data;
-      getMove(id);
-    });
+  }).then(() => {
+    getMove(id);
+  });
 }
 
 function getMove(id) {
   fetch(`http://localhost:8080/getmove?id=${id}`)
     .then((response) => response.json())
     .then((data) => {
+      console.log(data);
       tilesdata = data.tiles;
       const start = document.querySelector(
         "[data-square=" + CSS.escape(data.move.substring(0, 2)) + "]"
@@ -245,6 +241,9 @@ function getMove(id) {
         const startString = start.getAttribute("data-square");
         const endString = end.getAttribute("data-square");
         castle(startString, endString);
+      }
+
+      if (data.defeat) {
       }
     });
 }

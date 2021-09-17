@@ -63,13 +63,13 @@ public class BoardController {
 	}
 	
 	@PostMapping("/send")
-	public Tile[][] move(@RequestBody String moveString)
+	public void move(@RequestBody String moveString)
 	{
 		int x1, y1, x2, y2;
 		int id = Integer.parseInt(moveString.substring(4));
 		Board game = gameTable.get(id);
 		if(game == null)
-			return null;
+			return;
 		synchronized(game) {
 			game.moveData = moveString.substring(0, 4);
 			x1 = Character.getNumericValue(moveString.charAt(0)) - 10;
@@ -79,7 +79,6 @@ public class BoardController {
 			game.move(game.getBoard()[x1][y1], game.getBoard()[x2][y2]);
 			game.notify();
 		}
-		return game.getBoard();
 	}
 	
 	@GetMapping("/getmove")
@@ -90,7 +89,7 @@ public class BoardController {
 			return null;
 		synchronized(game) {
 			game.wait();
-			return new MoveData(game.getBoard(), game.moveData);
+			return new MoveData(game.getBoard(), game.moveData, game.isCheckmate());
 		}
 	}
 }

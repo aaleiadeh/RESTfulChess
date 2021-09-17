@@ -15,6 +15,7 @@ public class Board
 	public HashSet<String> blackThreat;
 	public Piece whiteKing;
 	public Piece blackKing;
+	public boolean whiteTurn;
 	public Board()
 	{
 		for(int y = 0; y < 8; y++)
@@ -28,6 +29,7 @@ public class Board
 		blackPieces = new ArrayList<Piece>(16);
 		whiteThreat = new HashSet<String>();
 		blackThreat = new HashSet<String>();
+		whiteTurn = true;
 	}
 	public void drawBoard()
 	{	
@@ -200,6 +202,7 @@ public class Board
 		end.occupyingPiece.occupiedTile = end;
 		end.occupyingPiece.actionsTaken++;
 		updateAllTiles();
+		whiteTurn = !whiteTurn;
 		//drawBoard();
 		return true;
 	}
@@ -229,6 +232,17 @@ public class Board
 			blackKing.updateTiles(blackKing.occupiedTile);
 			blackKing.updatejson();
 		}
+	}
+	
+	public boolean isCheckmate() {
+		ArrayList<Piece> allies = whiteTurn ? whitePieces : blackPieces;
+		for(Piece piece : allies) {
+			if(piece.occupiedTile == null)
+				continue;
+			if(!(piece.viableTiles.isEmpty()))
+				return false;
+		}
+		return true;
 	}
 	
 	public Tile[][] getBoard(){
