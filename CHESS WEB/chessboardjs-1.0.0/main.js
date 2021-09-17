@@ -1,4 +1,4 @@
-var board1;
+var board1 = ChessBoard("board1");
 let elementpieces;
 let elementsquares;
 let movingpiece;
@@ -15,7 +15,7 @@ let url = window.location.href;
 let params = new URL(window.location).searchParams;
 let id = params.get("id");
 let isPlayerTwo = id === null ? false : true;
-const startbtn = document.querySelector("#newgame");
+const startbtn = document.querySelector("#createbtn");
 if (isPlayerTwo) {
   startbtn.remove();
   join(id);
@@ -24,6 +24,9 @@ if (isPlayerTwo) {
 startbtn.addEventListener("click", () => {
   startbtn.remove();
   startNewGame();
+  window.addEventListener("beforeunload", (event) => {
+    endGame(id);
+  });
 });
 
 function addListeners() {
@@ -96,15 +99,15 @@ function addListeners() {
 
               //enpassant
               //Moving diagonal to empty square
-              if (start.charAt(0) != end.charAt(0)) {
-                const enpassantTile = document.querySelector(
-                  "[data-square=" +
-                    CSS.escape(end.charAt(0) + start.charAt(1)) +
-                    "]"
-                );
-                const enpassantPiece =
-                  enpassantTile.querySelector("[data-piece");
-                enpassantTile.removeChild(enpassantPiece);
+              if (movingpiece.getAttribute("data-piece").charAt(1) == "P") {
+                if (start.charAt(0) != end.charAt(0)) {
+                  enpassant(start, end);
+                }
+              }
+
+              //Castling
+              if (movingpiece.getAttribute("data-piece").charAt(1) == "K") {
+                castle(start, end);
               }
             } else {
               isMoving = false;
@@ -114,10 +117,6 @@ function addListeners() {
         }
       }
     });
-  });
-
-  window.addEventListener("beforeunload", (event) => {
-    endGame(id);
   });
 }
 
@@ -151,7 +150,7 @@ function startNewGame() {
   fetch("http://localhost:8080/newgame")
     .then((response) => response.json())
     .then((data) => {
-      //console.log(data);
+      console.log(data);
       tilesdata = data.tiles;
       id = data.id;
       color = "w";
@@ -160,7 +159,8 @@ function startNewGame() {
       url += "?id=" + id;
       document.querySelector("#gamelink").href = url;
       document.querySelector("#gamelink").innerHTML = url;
-
+      document.querySelector("#instructions").innerHTML =
+        "Give this link to a friend:";
       establishConnection(id);
     });
 }
@@ -193,6 +193,7 @@ function establishConnection(id) {
     board1 = ChessBoard("board1", "start");
     addListeners();
     document.querySelector("#gamelink").remove();
+    document.querySelector("#instructions").remove();
   });
 }
 
@@ -234,16 +235,58 @@ function getMove(id) {
         endString = end.getAttribute("data-square");
         if (startString.charAt(0) != endString.charAt(0)) {
           if (endpiece === null) {
-            const enpassantTile = document.querySelector(
-              "[data-square=" +
-                CSS.escape(endString.charAt(0) + startString.charAt(1)) +
-                "]"
-            );
-            enpassantTile.removeChild(
-              enpassantTile.querySelector("[data-piece]")
-            );
+            enpassant(startString, endString);
           }
         }
       }
+
+      //castling
+      if (startpiece.getAttribute("data-piece").charAt(1) === "K") {
+        const startString = start.getAttribute("data-square");
+        const endString = end.getAttribute("data-square");
+        castle(startString, endString);
+      }
     });
+}
+
+function enpassant(start, end) {
+  const enpassantTile = document.querySelector(
+    "[data-square=" + CSS.escape(end.charAt(0) + start.charAt(1)) + "]"
+  );
+  const enpassantPiece = enpassantTile.querySelector("[data-piece]");
+  enpassantTile.removeChild(enpassantPiece);
+}
+
+function castle(start, end) {
+  const direction = end.charCodeAt(0) - 97 - (start.charCodeAt(0) - 97);
+  if (direction === 2) {
+    const rookTileString =
+      String.fromCharCode(end.charCodeAt(0) + 1) + end.charAt(1);
+    const rookTile = document.querySelector(
+      "[data-square=" + CSS.escape(rookTileString) + "]"
+    );
+    const moveToString =
+      String.fromCharCode(end.charCodeAt(0) - 1) + end.charAt(1);
+    const moveTo = document.querySelector(
+      "[data-square=" + CSS.escape(moveToString) + "]"
+    );
+    const rook = rookTile.querySelector("[data-piece]");
+    rookTile.removeChild(rook);
+    moveTo.appendChild(rook);
+  }
+  if (direction === -2) {
+    const rookTileString =
+      String.fromCharCode(end.charCodeAt(0) - 2) + end.charAt(1);
+    const rookTile = document.querySelector(
+      "[data-square=" + CSS.escape(rookTileString) + "]"
+    );
+    const moveToString =
+      String.fromCharCode(end.charCodeAt(0) + 1) + end.charAt(1);
+    const moveTo = document.querySelector(
+      "[data-square=" + CSS.escape(moveToString) + "]"
+    );
+    const rook = rookTile.querySelector("[data-piece]");
+    rookTile.removeChild(rook);
+    moveTo.appendChild(rook);
+  }
 }

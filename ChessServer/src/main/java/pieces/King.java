@@ -40,6 +40,7 @@ public class King extends Piece{
 			}
 		}
 		
+		//Ally Pin Check
 		ArrayList<Piece> oppPieces = this.isWhite ? game.blackPieces : game.whitePieces;
 		ArrayList<Piece> allyPieces = this.isWhite ? game.whitePieces : game.blackPieces;
 		for(Piece enemy : oppPieces) {
@@ -76,7 +77,7 @@ public class King extends Piece{
 					counter++;
 			}
 			
-			if(counter == 1) {
+			if(counter == 1) {//Single Check
 				for(Piece enemy : oppPieces) {
 					if(enemy.occupiedTile == null)
 						continue;
@@ -118,6 +119,26 @@ public class King extends Piece{
 				}
 			}
 		}
+		else {//Not in check. Castling conditions here
+			if(this.actionsTaken == 0) {
+				Tile kingTile = this.occupiedTile;
+				int posX = kingTile.posX;
+				int posY = kingTile.posY;
+				if(castlingTileCheck(game.board[posX+1][posY]) && castlingTileCheck(game.board[posX+2][posY])) {
+					Piece rightRook = game.board[posX+3][posY].occupyingPiece;
+					if(rightRook instanceof Rook && rightRook.actionsTaken == 0)
+						viableTiles.add(game.board[posX+2][posY]);
+				}
+				if(castlingTileCheck(game.board[posX-1][posY]) && castlingTileCheck(game.board[posX-2][posY])) {
+					if(game.board[posX-3][posY].occupyingPiece == null) {
+						Piece leftRook = game.board[posX-4][posY].occupyingPiece;
+						if(leftRook instanceof Rook && leftRook.actionsTaken == 0)
+							viableTiles.add(game.board[posX-2][posY]);
+					}
+					
+				}
+			}
+		}
 	}
 	
 	public boolean inCheck() {
@@ -127,9 +148,8 @@ public class King extends Piece{
 		return false;
 	}
 	
-	/*public boolean checkmate() {
-		if(inCheck() && this.viableTiles.isEmpty())
-			return true;
-		return false;
-	}*/
+	private boolean castlingTileCheck(Tile tile) {
+		HashSet<String> oppThreat = isWhite ? game.blackThreat : game.whiteThreat;
+		return (tile.occupyingPiece == null && !oppThreat.contains(tile.toString()));
+	}
 }
