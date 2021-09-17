@@ -16,6 +16,7 @@ public class Board
 	public Piece whiteKing;
 	public Piece blackKing;
 	public boolean whiteTurn;
+	public int rematchCounter = 0;
 	public Board()
 	{
 		for(int y = 0; y < 8; y++)
@@ -31,38 +32,7 @@ public class Board
 		blackThreat = new HashSet<String>();
 		whiteTurn = true;
 	}
-	public void drawBoard()
-	{	
-		boolean black = false;
-		for(int y = 7; y > -1; y--)
-		{
-			for(int x = 0; x < 8; x++)
-			{
-				if(board[x][y].occupyingPiece != null)
-				{
-					System.out.print(board[x][y].occupyingPiece.getName()+" ");
-				}
-				else
-				{
-					if(black)
-					{
-						System.out.print("## ");
-					}
-					else
-					{
-						System.out.print("   ");
-					}
-				}
-				black = !black;
-				if(x == 7)//When the final piece in the row has been printed, proceed to print row number
-				{
-					System.out.println(y+1);
-				}
-			}
-			black = !black;
-		}
-		System.out.println(" a  b  c  d  e  f  g  h");
-	}
+	
 	public void startGame()//fills board
 	{
 		board[0][7].occupyingPiece = new Rook(false, this); //Set up black backrow
@@ -144,6 +114,7 @@ public class Board
 		}
 		updateAllTiles();
 	}
+	
 	public boolean move(Tile start, Tile end)
 	{
 		//Enpassant
@@ -207,6 +178,21 @@ public class Board
 		return true;
 	}
 	
+	public boolean isCheckmate() {
+		ArrayList<Piece> allies = whiteTurn ? whitePieces : blackPieces;
+		for(Piece piece : allies) {
+			if(piece.occupiedTile == null)
+				continue;
+			if(!(piece.viableTiles.isEmpty()))
+				return false;
+		}
+		return true;
+	}
+	
+	public Tile[][] getBoard(){
+		return board;
+	}
+	
 	private void updateAllTiles()
 	{
 		whiteThreat.clear();
@@ -234,18 +220,36 @@ public class Board
 		}
 	}
 	
-	public boolean isCheckmate() {
-		ArrayList<Piece> allies = whiteTurn ? whitePieces : blackPieces;
-		for(Piece piece : allies) {
-			if(piece.occupiedTile == null)
-				continue;
-			if(!(piece.viableTiles.isEmpty()))
-				return false;
+	private void drawBoard()
+	{	
+		boolean black = false;
+		for(int y = 7; y > -1; y--)
+		{
+			for(int x = 0; x < 8; x++)
+			{
+				if(board[x][y].occupyingPiece != null)
+				{
+					System.out.print(board[x][y].occupyingPiece.getName()+" ");
+				}
+				else
+				{
+					if(black)
+					{
+						System.out.print("## ");
+					}
+					else
+					{
+						System.out.print("   ");
+					}
+				}
+				black = !black;
+				if(x == 7)//When the final piece in the row has been printed, proceed to print row number
+				{
+					System.out.println(y+1);
+				}
+			}
+			black = !black;
 		}
-		return true;
-	}
-	
-	public Tile[][] getBoard(){
-		return board;
+		System.out.println(" a  b  c  d  e  f  g  h");
 	}
 }

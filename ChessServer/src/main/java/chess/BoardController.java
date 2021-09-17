@@ -33,15 +33,14 @@ public class BoardController {
 	}
 	
 	@GetMapping("/join")
-	public Tile[][] join(@RequestParam int id)
+	public void join(@RequestParam int id)
 	{
 		Board game = gameTable.get(id);
 		if(game == null)
-			return null;
+			return;
 		synchronized(game) {
 			game.notify();
 		}
-		return game.getBoard();
 	}
 	
 	@PostMapping("/end")
@@ -49,6 +48,29 @@ public class BoardController {
 		if(gameTable.remove(Integer.parseInt(id)) != null)
 			idStack.push(Integer.parseInt(id));
 	}
+	
+	/*@GetMapping("/rematch")
+	public Tile[][] rematch(@RequestParam int id) throws InterruptedException
+	{
+		Board game = gameTable.get(id);
+		if(game == null)
+			return null;
+		synchronized(game) {
+			game.rematchCounter++;
+			if(game.rematchCounter == 1) {
+				game.wait();
+			}
+			else {
+				Board newgame = new Board();
+				newgame.id = id;
+				newgame.startGame();
+				gameTable.put(id, newgame);
+				game.notify();
+			}
+			System.out.println("restarted");
+			return gameTable.get(id).getBoard();
+		}
+	}*/
 	
 	@GetMapping("/establish")
 	public void establish(@RequestParam int id) throws InterruptedException
@@ -63,13 +85,13 @@ public class BoardController {
 	}
 	
 	@PostMapping("/send")
-	public void move(@RequestBody String moveString)
+	public boolean move(@RequestBody String moveString)
 	{
 		int x1, y1, x2, y2;
 		int id = Integer.parseInt(moveString.substring(4));
 		Board game = gameTable.get(id);
 		if(game == null)
-			return;
+			return false;
 		synchronized(game) {
 			game.moveData = moveString.substring(0, 4);
 			x1 = Character.getNumericValue(moveString.charAt(0)) - 10;
@@ -79,6 +101,7 @@ public class BoardController {
 			game.move(game.getBoard()[x1][y1], game.getBoard()[x2][y2]);
 			game.notify();
 		}
+		return game.isCheckmate();
 	}
 	
 	@GetMapping("/getmove")

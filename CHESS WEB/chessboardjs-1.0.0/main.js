@@ -15,6 +15,7 @@ let url = window.location.href;
 let params = new URL(window.location).searchParams;
 let id = params.get("id");
 let isPlayerTwo = id === null ? false : true;
+
 const startbtn = document.querySelector("#createbtn");
 if (isPlayerTwo) {
   startbtn.remove();
@@ -165,19 +166,16 @@ function startNewGame() {
 }
 
 function join(id) {
-  fetch(`http://localhost:8080/join?id=${id}`)
-    .then((response) => response.json())
-    .then((data) => {
-      tilesdata = data.tiles;
-      color = "b";
-      turn = false;
-      board1 = ChessBoard("board1", {
-        orientation: "black",
-        position: "start",
-      });
-      addListeners();
-      getMove(id);
+  fetch(`http://localhost:8080/join?id=${id}`).then(() => {
+    color = "b";
+    turn = false;
+    board1 = ChessBoard("board1", {
+      orientation: "black",
+      position: "start",
     });
+    addListeners();
+    getMove(id);
+  });
 }
 
 function endGame(id) {
@@ -187,11 +185,33 @@ function endGame(id) {
   });
 }
 
+function rematch(id) {
+  fetch(`http://localhost:8080/rematch?id=${id}`)
+    .then((response) => response.json())
+    .then((data) => {
+      tilesdata = data;
+      color = color === "w" ? "b" : "w";
+      turn = color === "w" ? true : false;
+      if (color === "w") {
+        board1 = ChessBoard("board1", "start");
+      } else {
+        board1 = ChessBoard("board1", {
+          orientation: "black",
+          position: "start",
+        });
+        getMove(id);
+      }
+      addListeners();
+      document.querySelector("#winner").innerHTML = "";
+    });
+}
+
 function establishConnection(id) {
   fetch(`http://localhost:8080/establish?id=${id}`).then(() => {
     board1 = ChessBoard("board1", "start");
     addListeners();
-    document.querySelector("#newgame").remove();
+    document.querySelector("#instructions").remove();
+    document.querySelector("#gamelink").remove();
   });
 }
 
@@ -199,16 +219,21 @@ function sendMove(move) {
   fetch("http://localhost:8080/send", {
     method: "POST",
     body: move,
-  }).then(() => {
-    getMove(id);
-  });
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data === true) {
+        gameOver(true);
+      } else {
+        getMove(id);
+      }
+    });
 }
 
 function getMove(id) {
   fetch(`http://localhost:8080/getmove?id=${id}`)
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       tilesdata = data.tiles;
       const start = document.querySelector(
         "[data-square=" + CSS.escape(data.move.substring(0, 2)) + "]"
@@ -223,7 +248,6 @@ function getMove(id) {
         end.removeChild(endpiece);
       }
       end.appendChild(startpiece);
-      turn = true;
 
       //enpassant
       if (startpiece.getAttribute("data-piece").charAt(1) === "P") {
@@ -244,8 +268,28 @@ function getMove(id) {
       }
 
       if (data.defeat) {
+        gameOver(false);
+      } else {
+        turn = true;
       }
     });
+}
+
+function gameOver(victory) {
+  const rematchbtn = document.createElement("button");
+  rematchbtn.innerHTML = "Rematch?(Disabled because bugged for now)";
+  document.querySelector("#newgame").appendChild(rematchbtn);
+  let winner;
+  if (victory) {
+    winner = color === "w" ? "White" : "Black";
+  } else {
+    winner = color === "w" ? "Black" : "White";
+  }
+  document.querySelector("#winner").innerHTML = winner + " Wins";
+  rematchbtn.addEventListener("click", (event) => {
+    rematchbtn.remove();
+    //rematch(id);
+  });
 }
 
 function enpassant(start, end) {
