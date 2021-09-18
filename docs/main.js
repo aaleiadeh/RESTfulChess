@@ -148,7 +148,7 @@ function highlight(piece) {
 }
 
 function startNewGame() {
-  fetch("https:108.35.7.75:443/newgame")
+  fetch("https://108.35.7.75:443/newgame")
     .then((response) => response.json())
     .then((data) => {
       tilesdata = data.tiles;
@@ -166,7 +166,7 @@ function startNewGame() {
 }
 
 function join(id) {
-  fetch(`https:108.35.7.75:443/join?id=${id}`).then(() => {
+  fetch(`https://108.35.7.75:443/join?id=${id}`).then(() => {
     color = "b";
     turn = false;
     board1 = ChessBoard("board1", {
@@ -179,14 +179,14 @@ function join(id) {
 }
 
 function endGame(id) {
-  fetch("https:108.35.7.75:443/end", {
+  fetch("https://108.35.7.75:443/end", {
     method: "POST",
     body: id,
   });
 }
 
 function rematch(id) {
-  fetch(`https:108.35.7.75:443/rematch?id=${id}`)
+  fetch(`https://108.35.7.75:443/rematch?id=${id}`)
     .then((response) => response.json())
     .then((data) => {
       tilesdata = data;
@@ -207,7 +207,7 @@ function rematch(id) {
 }
 
 function establishConnection(id) {
-  fetch(`https:108.35.7.75:443/establish?id=${id}`).then(() => {
+  fetch(`https://108.35.7.75:443/establish?id=${id}`).then(() => {
     board1 = ChessBoard("board1", "start");
     addListeners();
     document.querySelector("#instructions").remove();
@@ -216,7 +216,7 @@ function establishConnection(id) {
 }
 
 function sendMove(move) {
-  fetch("https:108.35.7.75:443/send", {
+  fetch("https://108.35.7.75:443/send", {
     method: "POST",
     body: move,
   })
@@ -231,7 +231,7 @@ function sendMove(move) {
 }
 
 function getMove(id) {
-  fetch(`https:108.35.7.75:443/getmove?id=${id}`)
+  fetch(`https://108.35.7.75:443/getmove?id=${id}`)
     .then((response) => response.json())
     .then((data) => {
       tilesdata = data.tiles;
