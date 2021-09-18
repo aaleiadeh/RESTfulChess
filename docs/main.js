@@ -148,7 +148,7 @@ function highlight(piece) {
 }
 
 function startNewGame() {
-  fetch("https://108.35.7.75:443/newgame")
+  fetch("https://restful-chess-server.herokuapp.com/newgame")
     .then((response) => response.json())
     .then((data) => {
       tilesdata = data.tiles;
@@ -166,7 +166,7 @@ function startNewGame() {
 }
 
 function join(id) {
-  fetch(`https://108.35.7.75:443/join?id=${id}`).then(() => {
+  fetch(`https://restful-chess-server.herokuapp.com/join?id=${id}`).then(() => {
     color = "b";
     turn = false;
     board1 = ChessBoard("board1", {
@@ -179,14 +179,14 @@ function join(id) {
 }
 
 function endGame(id) {
-  fetch("https://108.35.7.75:443/end", {
+  fetch("https://restful-chess-server.herokuapp.com/end", {
     method: "POST",
     body: id,
   });
 }
 
 function rematch(id) {
-  fetch(`https://108.35.7.75:443/rematch?id=${id}`)
+  fetch(`https://restful-chess-server.herokuapp.com/rematch?id=${id}`)
     .then((response) => response.json())
     .then((data) => {
       tilesdata = data;
@@ -207,16 +207,18 @@ function rematch(id) {
 }
 
 function establishConnection(id) {
-  fetch(`https://108.35.7.75:443/establish?id=${id}`).then(() => {
-    board1 = ChessBoard("board1", "start");
-    addListeners();
-    document.querySelector("#instructions").remove();
-    document.querySelector("#gamelink").remove();
-  });
+  fetch(`https://restful-chess-server.herokuapp.com/establish?id=${id}`).then(
+    () => {
+      board1 = ChessBoard("board1", "start");
+      addListeners();
+      document.querySelector("#instructions").remove();
+      document.querySelector("#gamelink").remove();
+    }
+  );
 }
 
 function sendMove(move) {
-  fetch("https://108.35.7.75:443/send", {
+  fetch("https://restful-chess-server.herokuapp.com/send", {
     method: "POST",
     body: move,
   })
@@ -231,7 +233,7 @@ function sendMove(move) {
 }
 
 function getMove(id) {
-  fetch(`https://108.35.7.75:443/getmove?id=${id}`)
+  fetch(`https://restful-chess-server.herokuapp.com/getmove?id=${id}`)
     .then((response) => response.json())
     .then((data) => {
       tilesdata = data.tiles;
