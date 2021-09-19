@@ -73,8 +73,10 @@ public class King extends Piece{
 			for(Piece enemy : oppPieces) {
 				if(enemy.occupiedTile == null)
 					continue;
-				if(enemy.viableTiles.contains(this.occupiedTile))
+				if(enemy.viableTiles.contains(this.occupiedTile)) {
+					viableTiles.remove(enemy.kingRetreat);
 					counter++;
+				}
 			}
 			
 			if(counter == 1) {//Single Check

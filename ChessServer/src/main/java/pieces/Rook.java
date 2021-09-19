@@ -46,8 +46,11 @@ public class Rook extends Piece{
 						if(kingFound)
 							continue;
 						pathToKing.add(tile.toString());
-						if(tile.occupyingPiece instanceof King)
+						if(tile.occupyingPiece instanceof King) {
 							kingFound = true;
+							if(x < 7)
+								kingRetreat = game.board[x+1][y];
+						}
 					}
 					else { //Blocked by ally piece, no point in searching for pathtoking
 						threat.add(tile.toString());
@@ -64,8 +67,11 @@ public class Rook extends Piece{
 					if(tile.occupyingPiece.isWhite == this.isWhite)
 						break;
 					pathToKing.add(tile.toString());
-					if(tile.occupyingPiece instanceof King)
+					if(tile.occupyingPiece instanceof King) {
 						kingFound = true;
+						if(x < 7)
+							kingRetreat = game.board[x+1][y];
+					}
 				}
 				else
 					pathToKing.add(tile.toString());
@@ -97,8 +103,11 @@ public class Rook extends Piece{
 						if(kingFound)
 							continue;
 						pathToKing.add(tile.toString());
-						if(tile.occupyingPiece instanceof King)
+						if(tile.occupyingPiece instanceof King) {
 							kingFound = true;
+							if(x > 0)
+								kingRetreat = game.board[x-1][y];
+						}
 					}
 					else { //Blocked by ally piece, no point in searching for pathtoking
 						threat.add(tile.toString());
@@ -115,8 +124,11 @@ public class Rook extends Piece{
 					if(tile.occupyingPiece.isWhite == this.isWhite)
 						break;
 					pathToKing.add(tile.toString());
-					if(tile.occupyingPiece instanceof King)
+					if(tile.occupyingPiece instanceof King) {
 						kingFound = true;
+						if(x > 0)
+							kingRetreat = game.board[x-1][y];
+					}
 				}
 				else
 					pathToKing.add(tile.toString());
@@ -148,8 +160,11 @@ public class Rook extends Piece{
 						if(kingFound)
 							continue;
 						pathToKing.add(tile.toString());
-						if(tile.occupyingPiece instanceof King)
+						if(tile.occupyingPiece instanceof King) {
 							kingFound = true;
+							if(y < 7)
+								kingRetreat = game.board[x][y+1];
+						}
 					}
 					else { //Blocked by ally piece, no point in searching for pathtoking
 						threat.add(tile.toString());
@@ -166,8 +181,11 @@ public class Rook extends Piece{
 					if(tile.occupyingPiece.isWhite == this.isWhite)
 						break;
 					pathToKing.add(tile.toString());
-					if(tile.occupyingPiece instanceof King)
+					if(tile.occupyingPiece instanceof King) {
 						kingFound = true;
+						if(y < 7)
+							kingRetreat = game.board[x][y+1];
+					}
 				}
 				else
 					pathToKing.add(tile.toString());
@@ -199,8 +217,11 @@ public class Rook extends Piece{
 						if(kingFound)
 							continue;
 						pathToKing.add(tile.toString());
-						if(tile.occupyingPiece instanceof King)
+						if(tile.occupyingPiece instanceof King) {
 							kingFound = true;
+							if(y > 0)
+								kingRetreat = game.board[x][y-1];
+						}
 					}
 					else { //Blocked by ally piece, no point in searching for pathtoking
 						threat.add(tile.toString());
@@ -217,8 +238,11 @@ public class Rook extends Piece{
 					if(tile.occupyingPiece.isWhite == this.isWhite)
 						break;
 					pathToKing.add(tile.toString());
-					if(tile.occupyingPiece instanceof King)
+					if(tile.occupyingPiece instanceof King) {
 						kingFound = true;
+						if(y > 0)
+							kingRetreat = game.board[x][y-1];
+					}
 				}
 				else
 					pathToKing.add(tile.toString());

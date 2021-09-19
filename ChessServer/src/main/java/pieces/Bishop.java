@@ -48,8 +48,11 @@ public class Bishop extends Piece{
 						if(kingFound)
 							continue;
 						pathToKing.add(tile.toString());
-						if(tile.occupyingPiece instanceof King)
+						if(tile.occupyingPiece instanceof King) {
 							kingFound = true;
+							if(x < 7 && y < 7)
+								kingRetreat = game.board[x+1][y+1];
+						}
 					}
 					else { //Blocked by ally piece, no point in searching for pathtoking
 						threat.add(tile.toString());
@@ -66,8 +69,11 @@ public class Bishop extends Piece{
 					if(tile.occupyingPiece.isWhite == this.isWhite)
 						break;
 					pathToKing.add(tile.toString());
-					if(tile.occupyingPiece instanceof King)
+					if(tile.occupyingPiece instanceof King) {
 						kingFound = true;
+						if(x < 7 && y < 7)
+							kingRetreat = game.board[x+1][y+1];
+					}
 				}
 				else
 					pathToKing.add(tile.toString());
@@ -101,8 +107,11 @@ public class Bishop extends Piece{
 						if(kingFound)
 							continue;
 						pathToKing.add(tile.toString());
-						if(tile.occupyingPiece instanceof King)
+						if(tile.occupyingPiece instanceof King) {
 							kingFound = true;
+							if(x > 0 && y > 0)
+								kingRetreat = game.board[x-1][y-1];
+						}
 					}
 					else { //Blocked by ally piece, no point in searching for pathtoking
 						threat.add(tile.toString());
@@ -119,8 +128,11 @@ public class Bishop extends Piece{
 					if(tile.occupyingPiece.isWhite == this.isWhite)
 						break;
 					pathToKing.add(tile.toString());
-					if(tile.occupyingPiece instanceof King)
+					if(tile.occupyingPiece instanceof King) {
 						kingFound = true;
+						if(x > 0 && y > 0)
+							kingRetreat = game.board[x-1][y-1];
+					}
 				}
 				else
 					pathToKing.add(tile.toString());
@@ -154,8 +166,11 @@ public class Bishop extends Piece{
 						if(kingFound)
 							continue;
 						pathToKing.add(tile.toString());
-						if(tile.occupyingPiece instanceof King)
+						if(tile.occupyingPiece instanceof King) {
 							kingFound = true;
+							if(x < 7 && y > 0)
+								kingRetreat = game.board[x+1][y-1];
+						}
 					}
 					else { //Blocked by ally piece, no point in searching for pathtoking
 						threat.add(tile.toString());
@@ -172,8 +187,11 @@ public class Bishop extends Piece{
 					if(tile.occupyingPiece.isWhite == this.isWhite)
 						break;
 					pathToKing.add(tile.toString());
-					if(tile.occupyingPiece instanceof King)
+					if(tile.occupyingPiece instanceof King) {
 						kingFound = true;
+						if(x < 7 && y > 0)
+							kingRetreat = game.board[x+1][y-1];
+					}
 				}
 				else
 					pathToKing.add(tile.toString());
@@ -207,8 +225,11 @@ public class Bishop extends Piece{
 						if(kingFound)
 							continue;
 						pathToKing.add(tile.toString());
-						if(tile.occupyingPiece instanceof King)
+						if(tile.occupyingPiece instanceof King) {
 							kingFound = true;
+							if(x > 0 && y < 7)
+								kingRetreat = game.board[x-1][y+1];
+						}
 					}
 					else { //Blocked by ally piece, no point in searching for pathtoking
 						threat.add(tile.toString());
@@ -225,8 +246,11 @@ public class Bishop extends Piece{
 					if(tile.occupyingPiece.isWhite == this.isWhite)
 						break;
 					pathToKing.add(tile.toString());
-					if(tile.occupyingPiece instanceof King)
+					if(tile.occupyingPiece instanceof King) {
 						kingFound = true;
+						if(x > 0 && y < 7)
+							kingRetreat = game.board[x-1][y+1];
+					}
 				}
 				else
 					pathToKing.add(tile.toString());
