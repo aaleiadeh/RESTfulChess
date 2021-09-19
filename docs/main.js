@@ -171,11 +171,19 @@ function startNewGame() {
 
 function join(id) {
   fetch(`${server}/join?id=${id}`).then(() => {
+    window.history.pushState(
+      "",
+      "",
+      "https://aaleiadeh.github.io/RESTfulChess/"
+    );
     color = "b";
     turn = false;
     board1 = ChessBoard("board1", {
       orientation: "black",
       position: "start",
+    });
+    window.addEventListener("beforeunload", (event) => {
+      endGame(id);
     });
     addListeners();
     getMove(id);
