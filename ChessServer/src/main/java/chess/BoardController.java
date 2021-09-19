@@ -95,8 +95,10 @@ public class BoardController {
 			}
 			else {
 				game.wait(20000);
-				if(game.moveSet)
+				if(game.moveSet) {
+					game.moveSet = false;
 					return new MoveData(game.getBoard(), game.moveData, game.isCheckmate());
+				}
 				else
 					return new MoveData(null, "TIMEOUT", false);
 			}
