@@ -16,6 +16,10 @@ let params = new URL(window.location).searchParams;
 let id = params.get("id");
 let isPlayerTwo = id === null ? false : true;
 
+let local = "http://localhost:443";
+let heroku = "https://restful-chess-server.herokuapp.com";
+let server = heroku;
+
 const startbtn = document.querySelector("#createbtn");
 if (isPlayerTwo) {
   startbtn.remove();
@@ -148,7 +152,7 @@ function highlight(piece) {
 }
 
 function startNewGame() {
-  fetch("http://localhost:443/newgame")
+  fetch(`${server}/newgame`)
     .then((response) => response.json())
     .then((data) => {
       tilesdata = data.tiles;
@@ -166,7 +170,7 @@ function startNewGame() {
 }
 
 function join(id) {
-  fetch(`http://localhost:443/join?id=${id}`).then(() => {
+  fetch(`${server}/join?id=${id}`).then(() => {
     color = "b";
     turn = false;
     board1 = ChessBoard("board1", {
@@ -179,14 +183,14 @@ function join(id) {
 }
 
 function endGame(id) {
-  fetch("http://localhost:443/end", {
+  fetch(`${server}/end`, {
     method: "POST",
     body: id,
   });
 }
 
 function rematch(id) {
-  fetch(`http://localhost:443/rematch?id=${id}`)
+  fetch(`${server}/rematch?id=${id}`)
     .then((response) => response.json())
     .then((data) => {
       tilesdata = data;
@@ -207,7 +211,7 @@ function rematch(id) {
 }
 
 function establishConnection(id) {
-  fetch(`http://localhost:443/establish?id=${id}`).then(() => {
+  fetch(`${server}/establish?id=${id}`).then(() => {
     board1 = ChessBoard("board1", "start");
     addListeners();
     document.querySelector("#instructions").remove();
@@ -216,7 +220,7 @@ function establishConnection(id) {
 }
 
 function sendMove(move) {
-  fetch("http://localhost:443/send", {
+  fetch(`${server}/send`, {
     method: "POST",
     body: move,
   })
@@ -231,7 +235,7 @@ function sendMove(move) {
 }
 
 function getMove(id) {
-  fetch(`http://localhost:443/getmove?id=${id}`)
+  fetch(`${server}/getmove?id=${id}`)
     .then((response) => response.json())
     .then((data) => {
       if (data.move === "TIMEOUT") {
@@ -251,6 +255,9 @@ function getMove(id) {
           end.removeChild(endpiece);
         }
         end.appendChild(startpiece);
+
+        start.classList.add("highlight1-32417");
+        end.classList.add("highlight1-32417");
 
         //enpassant
         if (startpiece.getAttribute("data-piece").charAt(1) === "P") {
