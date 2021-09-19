@@ -1,7 +1,8 @@
 package chess;
 
 import java.util.Hashtable;
-import java.util.Stack;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,16 +16,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class BoardController {
 	public Hashtable<Integer, Board> gameTable = new Hashtable<Integer, Board>();
 	public int id = 0;
-	public Stack<Integer> idStack = new Stack<Integer>();
+	public Queue<Integer> idQueue = new LinkedList<Integer>();
 	@GetMapping("/newgame")
 	public synchronized BoardData board()
 	{
 		Board game = new Board();
-		if(idStack.isEmpty()) {
+		if(idQueue.isEmpty()) {
 			game.id = id;
 			id++;
 		} else {
-			game.id = idStack.pop();
+			game.id = idQueue.poll();
 		}
 		game.startGame();
 		gameTable.put(game.id, game);
@@ -46,7 +47,7 @@ public class BoardController {
 	@PostMapping("/end")
 	public synchronized void endGame(@RequestBody String id) {
 		if(gameTable.remove(Integer.parseInt(id)) != null)
-			idStack.push(Integer.parseInt(id));
+			idQueue.add(Integer.parseInt(id));
 	}
 	
 	@GetMapping("/establish")
@@ -59,7 +60,7 @@ public class BoardController {
 			game.wait(25000);
 			if(!game.joined) {
 				if(gameTable.remove(id) != null)
-					idStack.push(id);
+					idQueue.add(id);
 			}
 			return game.joined;
 		}
