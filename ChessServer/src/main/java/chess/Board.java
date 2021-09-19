@@ -9,6 +9,7 @@ public class Board
 	public Tile[][] board = new Tile[8][8];
 	public int id;
 	public String moveData;
+	public boolean moveSet;
 	public ArrayList<Piece> whitePieces;
 	public ArrayList<Piece> blackPieces;
 	public HashSet<String> whiteThreat;

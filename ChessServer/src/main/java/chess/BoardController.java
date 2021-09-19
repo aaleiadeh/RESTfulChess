@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 //Todo: Make links expire
 @RestController
-@CrossOrigin(origins="*")
+@CrossOrigin(origins="https://aaleiadeh.github.io/")
 public class BoardController {
 	public Hashtable<Integer, Board> gameTable = new Hashtable<Integer, Board>();
 	public int id = 0;
@@ -49,29 +49,6 @@ public class BoardController {
 			idStack.push(Integer.parseInt(id));
 	}
 	
-	/*@GetMapping("/rematch")
-	public Tile[][] rematch(@RequestParam int id) throws InterruptedException
-	{
-		Board game = gameTable.get(id);
-		if(game == null)
-			return null;
-		synchronized(game) {
-			game.rematchCounter++;
-			if(game.rematchCounter == 1) {
-				game.wait();
-			}
-			else {
-				Board newgame = new Board();
-				newgame.id = id;
-				newgame.startGame();
-				gameTable.put(id, newgame);
-				game.notify();
-			}
-			System.out.println("restarted");
-			return gameTable.get(id).getBoard();
-		}
-	}*/
-	
 	@GetMapping("/establish")
 	public void establish(@RequestParam int id) throws InterruptedException
 	{
@@ -94,6 +71,7 @@ public class BoardController {
 			return false;
 		synchronized(game) {
 			game.moveData = moveString.substring(0, 4);
+			game.moveSet = true;
 			x1 = Character.getNumericValue(moveString.charAt(0)) - 10;
 			y1 = Character.getNumericValue(moveString.charAt(1)) - 1;
 			x2 = Character.getNumericValue(moveString.charAt(2)) - 10;
@@ -109,10 +87,19 @@ public class BoardController {
 	{
 		Board game = gameTable.get(id);
 		if(game == null)
-			return null;
+			return new MoveData(null, "", false);
 		synchronized(game) {
-			game.wait();
-			return new MoveData(game.getBoard(), game.moveData, game.isCheckmate());
+			if(game.moveSet) {
+				game.moveSet = false;
+				return new MoveData(game.getBoard(), game.moveData, game.isCheckmate());
+			}
+			else {
+				game.wait(20000);
+				if(game.moveSet)
+					return new MoveData(game.getBoard(), game.moveData, game.isCheckmate());
+				else
+					return null;
+			}
 		}
 	}
 }
