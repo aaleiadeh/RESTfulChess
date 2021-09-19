@@ -50,18 +50,18 @@ public class BoardController {
 	}
 	
 	@GetMapping("/establish")
-	public void establish(@RequestParam int id) throws InterruptedException
+	public boolean establish(@RequestParam int id) throws InterruptedException
 	{
 		Board game = gameTable.get(id);
 		if(game == null)
-			return;
+			return false;
 		synchronized(game) {
 			game.wait(25000);
 			if(!game.joined) {
 				if(gameTable.remove(id) != null)
 					idStack.push(id);
 			}
-			return;
+			return game.joined;
 		}
 	}
 	
