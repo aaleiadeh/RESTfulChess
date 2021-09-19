@@ -20,10 +20,6 @@ let local = "http://localhost:443";
 let heroku = "https://restful-chess-server.herokuapp.com";
 let server = heroku;
 
-window.addEventListener("beforeunload", (event) => {
-  endGame(id);
-});
-
 const startbtn = document.querySelector("#createbtn");
 if (isPlayerTwo) {
   startbtn.remove();
@@ -156,6 +152,9 @@ function startNewGame() {
   fetch(`${server}/newgame`)
     .then((response) => response.json())
     .then((data) => {
+      window.addEventListener("beforeunload", (event) => {
+        endGame(id);
+      });
       tilesdata = data.tiles;
       id = data.id;
       color = "w";
@@ -172,6 +171,9 @@ function startNewGame() {
 
 function join(id) {
   fetch(`${server}/join?id=${id}`).then(() => {
+    window.addEventListener("beforeunload", (event) => {
+      endGame(id);
+    });
     window.history.pushState(
       "",
       "",
