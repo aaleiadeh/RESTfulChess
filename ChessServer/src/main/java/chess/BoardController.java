@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 //Todo: Make links expire
 @RestController
-@CrossOrigin//(origins="https://aaleiadeh.github.io/")
+@CrossOrigin(origins="https://aaleiadeh.github.io/")
 public class BoardController {
 	public Hashtable<Integer, Board> gameTable = new Hashtable<Integer, Board>();
 	public int id = 0;
