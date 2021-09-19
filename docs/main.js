@@ -219,12 +219,19 @@ function rematch(id) {
 }
 
 function establishConnection(id) {
-  fetch(`${server}/establish?id=${id}`).then(() => {
-    board1 = ChessBoard("board1", "start");
-    addListeners();
-    document.querySelector("#instructions").remove();
-    document.querySelector("#gamelink").remove();
-  });
+  fetch(`${server}/establish?id=${id}`)
+    .then((response) => response.json())
+    .then((data) => {
+      if (data === false) {
+        document.querySelector("#instructions").innerHTML =
+          "Link Expired. Please refresh page";
+      } else {
+        board1 = ChessBoard("board1", "start");
+        addListeners();
+        document.querySelector("#instructions").remove();
+      }
+      document.querySelector("#gamelink").remove();
+    });
 }
 
 function sendMove(move) {
