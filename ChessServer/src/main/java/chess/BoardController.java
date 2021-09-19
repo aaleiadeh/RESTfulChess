@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-//Todo: Make links expire
 @RestController
 @CrossOrigin(origins="https://aaleiadeh.github.io/")
 public class BoardController {
@@ -39,6 +38,7 @@ public class BoardController {
 		if(game == null)
 			return;
 		synchronized(game) {
+			game.joined = true;
 			game.notify();
 		}
 	}
@@ -56,7 +56,11 @@ public class BoardController {
 		if(game == null)
 			return;
 		synchronized(game) {
-			game.wait();
+			game.wait(25000);
+			if(!game.joined) {
+				if(gameTable.remove(id) != null)
+					idStack.push(id);
+			}
 			return;
 		}
 	}
@@ -94,7 +98,7 @@ public class BoardController {
 				return new MoveData(game.getBoard(), game.moveData, game.isCheckmate());
 			}
 			else {
-				game.wait(20000);
+				game.wait(25000);
 				if(game.moveSet) {
 					game.moveSet = false;
 					return new MoveData(game.getBoard(), game.moveData, game.isCheckmate());

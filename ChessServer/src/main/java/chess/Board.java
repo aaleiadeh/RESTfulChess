@@ -8,6 +8,7 @@ public class Board
 {
 	public Tile[][] board = new Tile[8][8];
 	public int id;
+	public boolean joined;
 	public String moveData;
 	public boolean moveSet;
 	public ArrayList<Piece> whitePieces;
@@ -17,7 +18,6 @@ public class Board
 	public Piece whiteKing;
 	public Piece blackKing;
 	public boolean whiteTurn;
-	public int rematchCounter = 0;
 	public Board()
 	{
 		for(int y = 0; y < 8; y++)
@@ -32,6 +32,7 @@ public class Board
 		whiteThreat = new HashSet<String>();
 		blackThreat = new HashSet<String>();
 		whiteTurn = true;
+		joined = false;
 	}
 	
 	public void startGame()//fills board
