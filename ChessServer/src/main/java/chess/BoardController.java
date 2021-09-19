@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 //Todo: Make links expire
 @RestController
-@CrossOrigin(origins="https://aaleiadeh.github.io/")
+@CrossOrigin//(origins="https://aaleiadeh.github.io/")
 public class BoardController {
 	public Hashtable<Integer, Board> gameTable = new Hashtable<Integer, Board>();
 	public int id = 0;
@@ -87,7 +87,7 @@ public class BoardController {
 	{
 		Board game = gameTable.get(id);
 		if(game == null)
-			return new MoveData(null, "", false);
+			return null;
 		synchronized(game) {
 			if(game.moveSet) {
 				game.moveSet = false;
@@ -98,7 +98,7 @@ public class BoardController {
 				if(game.moveSet)
 					return new MoveData(game.getBoard(), game.moveData, game.isCheckmate());
 				else
-					return null;
+					return new MoveData(null, "TIMEOUT", false);
 			}
 		}
 	}

@@ -234,7 +234,9 @@ function getMove(id) {
   fetch(`http://localhost:443/getmove?id=${id}`)
     .then((response) => response.json())
     .then((data) => {
-      if (data != null) {
+      if (data.move === "TIMEOUT") {
+        getMove(id);
+      } else {
         tilesdata = data.tiles;
         const start = document.querySelector(
           "[data-square=" + CSS.escape(data.move.substring(0, 2)) + "]"
@@ -273,8 +275,6 @@ function getMove(id) {
         } else {
           turn = true;
         }
-      } else {
-        getMove(id);
       }
     });
 }
