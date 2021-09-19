@@ -20,6 +20,10 @@ let local = "http://localhost:443";
 let heroku = "https://restful-chess-server.herokuapp.com";
 let server = heroku;
 
+window.addEventListener("beforeunload", (event) => {
+  endGame(id);
+});
+
 const startbtn = document.querySelector("#createbtn");
 if (isPlayerTwo) {
   startbtn.remove();
@@ -162,9 +166,6 @@ function startNewGame() {
         "Give this link to a friend:";
       document.querySelector("#gamelink").href = url;
       document.querySelector("#gamelink").innerHTML = url;
-      window.addEventListener("beforeunload", (event) => {
-        endGame(id);
-      });
       establishConnection(id);
     });
 }
@@ -181,9 +182,6 @@ function join(id) {
     board1 = ChessBoard("board1", {
       orientation: "black",
       position: "start",
-    });
-    window.addEventListener("beforeunload", (event) => {
-      endGame(id);
     });
     addListeners();
     getMove(id);
