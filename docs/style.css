@@ -18,6 +18,10 @@ body {
   float: right;
 }
 
+footer {
+  font-size: 0.8vw;
+}
+
 hr {
   margin: auto;
 }

@@ -18,7 +18,7 @@ let isPlayerTwo = id === null ? false : true;
 
 let local = "http://localhost:443";
 let heroku = "https://restful-chess-server.herokuapp.com";
-let server = local;
+let server = heroku;
 
 const startbtn = document.querySelector("#createbtn");
 if (isPlayerTwo) {
