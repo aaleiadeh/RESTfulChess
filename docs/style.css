@@ -27,17 +27,14 @@ hr {
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
+  justify-content: center;
+  align-items: center;
 }
 
 #winner {
   font-family: "Courier New", Courier, monospace;
   font-size: 20pt;
   display: inline;
-}
-
-#newgame {
-  justify-content: center;
-  align-items: center;
 }
 
 #instructions {
