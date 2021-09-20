@@ -13,6 +13,7 @@ body {
 }
 
 #gitlink {
+  position: absolute;
   font-family: "Courier New", Courier, monospace;
   font-weight: 500;
   font-size: 18pt;
