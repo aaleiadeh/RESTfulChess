@@ -2,31 +2,25 @@ body {
   background-color: lightgray;
 }
 
-#header {
-  display: inline;
-}
-
 #title {
   font-family: "Courier New", Courier, monospace;
   font-weight: normal;
   font-size: 30pt;
+  display: inline;
 }
 
 #gitlink {
-  position: absolute;
   font-family: "Courier New", Courier, monospace;
-  font-weight: 500;
-  font-size: 18pt;
-  margin-top: -6%;
-  margin-left: 95%;
+  font-weight: normal;
+  font-size: 30pt;
   color: inherit;
   text-decoration: inherit;
+  float: right;
 }
 
 hr {
-  margin-top: -25px;
+  margin: auto;
 }
-
 #container {
   position: absolute;
   top: 50%;
