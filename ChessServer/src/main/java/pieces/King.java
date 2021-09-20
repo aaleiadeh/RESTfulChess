@@ -16,6 +16,24 @@ public class King extends Piece{
 		name = 'K';
 	}
 
+	public void initialThreat(Tile start) {
+		int x, y;
+		int[] xmove = {1, 1, 1, 0, -1, -1, -1, 0};
+		int[] ymove = {1, 0, -1, -1, -1, 0, 1, 1};
+		for(int i = 0; i < 8; i++)
+		{
+			x = start.posX;
+			y = start.posY;
+			x += xmove[i];
+			y += ymove[i];
+			if(inBounds(x, y))
+			{
+				Tile moveTo = game.board[x][y];
+				threat.add(moveTo.toString());
+			}
+		}
+	}
+	
 	@Override
 	public void updateTiles(Tile start) {
 		viableTiles.clear();
@@ -33,10 +51,10 @@ public class King extends Piece{
 			{
 				Tile moveTo = game.board[x][y];
 				if(moveTo.occupyingPiece == null || moveTo.occupyingPiece.isWhite != this.isWhite) {
-					if(!oppThreat.contains(moveTo.toString())) {
-						add(game.board[x][y]);
-					}
+					if(!oppThreat.contains(moveTo.toString()))
+						viableTiles.add(moveTo);
 				}
+				threat.add(moveTo.toString());
 			}
 		}
 		

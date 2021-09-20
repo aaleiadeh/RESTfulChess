@@ -213,12 +213,19 @@ public class Board
 			}
 		}
 		if(whiteKing.occupiedTile != null) {
-			whiteKing.updateTiles(whiteKing.occupiedTile);
-			whiteKing.updatejson();
+			((King) whiteKing).initialThreat(whiteKing.occupiedTile);
 		}
 		if(blackKing.occupiedTile != null) {
 			blackKing.updateTiles(blackKing.occupiedTile);
 			blackKing.updatejson();
+			if(whiteKing.occupiedTile != null) {
+				whiteKing.updateTiles(whiteKing.occupiedTile);
+				whiteKing.updatejson();
+			}
+		}
+		else {
+			whiteKing.updateTiles(whiteKing.occupiedTile);
+			whiteKing.updatejson();
 		}
 	}
 	
