@@ -5,14 +5,14 @@ body {
 #title {
   font-family: "Courier New", Courier, monospace;
   font-weight: normal;
-  font-size: 30pt;
+  font-size: 2vw;
   display: inline;
 }
 
 #gitlink {
   font-family: "Courier New", Courier, monospace;
   font-weight: normal;
-  font-size: 30pt;
+  font-size: 2vw;
   color: inherit;
   text-decoration: inherit;
   float: right;
