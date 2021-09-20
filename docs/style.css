@@ -16,7 +16,8 @@ body {
   color: inherit;
   text-decoration: inherit;
   float: right;
-  position:absolute;
+  text-align: bottom;
+  vertical-align: bottom;
 }
 
 footer {
