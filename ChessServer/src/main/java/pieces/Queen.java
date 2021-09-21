@@ -21,6 +21,7 @@ public class Queen extends Piece{
 	public void updateTiles(Tile start) {
 		viableTiles.clear();
 		pathToKing.clear();
+		kingRetreat = null;
 		int x = start.posX;
 		int y = start.posY;
 		boolean blocked = false;

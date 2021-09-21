@@ -22,6 +22,7 @@ public class Bishop extends Piece{
 	{
 		viableTiles.clear();
 		pathToKing.clear();
+		kingRetreat = null;
 		int x = start.posX;
 		int y = start.posY;
 		boolean blocked = false;
