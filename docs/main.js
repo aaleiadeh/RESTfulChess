@@ -266,6 +266,7 @@ function getMove(id) {
       if (data.move === "TIMEOUT") {
         getMove(id);
       } else {
+        console.log(data.move);
         tilesdata = data.tiles;
         const start = document.querySelector(
           "[data-square=" + CSS.escape(data.move.substring(0, 2)) + "]"
