@@ -176,7 +176,7 @@ public class Board
 		end.occupyingPiece.actionsTaken++;
 		
 		//Promotion
-		if(end.occupyingPiece instanceof Pawn && end.posY == 0 || end.posY == 7) {
+		if(end.occupyingPiece instanceof Pawn && (end.posY == 0 || end.posY == 7)) {
 			Piece newQueen = new Queen(end.occupyingPiece.isWhite, this);
 			end.occupyingPiece.occupiedTile = null;
 			end.occupyingPiece = newQueen;
