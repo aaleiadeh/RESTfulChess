@@ -336,6 +336,7 @@ function promotion(endTile) {
   let promoColor = promotingPiece.getAttribute("data-piece").charAt(0);
   let queenLink = `chessboardjs/img/chesspieces/wikipedia/${promoColor}Q.png`;
   promotingPiece.src = queenLink;
+  promotingPiece.setAttribute("data-piece", `${promoColor}Q`);
 }
 
 function enpassant(start, end) {
