@@ -71,6 +71,12 @@ function addListeners() {
                 clearHighlighting();
                 sendMove(start + end + id);
                 turn = false;
+
+                if (movingpiece.getAttribute("data-piece").charAt(1) == "P") {
+                  if (end.charAt(1) === "1" || end.charAt(1) === "8") {
+                    promotion(endsquare);
+                  }
+                }
               } else {
                 isMoving = false;
                 clearHighlighting();
@@ -99,11 +105,15 @@ function addListeners() {
               sendMove(start + end + id);
               turn = false;
 
-              //enpassant
+              //enpassant/promotion
               //Moving diagonal to empty square
               if (movingpiece.getAttribute("data-piece").charAt(1) == "P") {
                 if (start.charAt(0) != end.charAt(0)) {
                   enpassant(start, end);
+                } else {
+                  if (end.charAt(1) === "1" || end.charAt(1) === "8") {
+                    promotion(square);
+                  }
                 }
               }
 
@@ -274,7 +284,7 @@ function getMove(id) {
         start.classList.add("highlight1-32417");
         end.classList.add("highlight1-32417");
 
-        //enpassant
+        //enpassant/promotion
         if (startpiece.getAttribute("data-piece").charAt(1) === "P") {
           startString = start.getAttribute("data-square");
           endString = end.getAttribute("data-square");
@@ -282,6 +292,9 @@ function getMove(id) {
             if (endpiece === null) {
               enpassant(startString, endString);
             }
+          }
+          if (endString.charAt(1) === "1" || endString.charAt(1) === "8") {
+            promotion(end);
           }
         }
 
@@ -316,6 +329,13 @@ function gameOver(victory) {
     rematchbtn.remove();
     //rematch(id);
   });
+}
+
+function promotion(endTile) {
+  let promotingPiece = endTile.querySelector("[data-piece]");
+  let promoColor = promotingPiece.getAttribute("data-piece").charAt(0);
+  let queenLink = `chessboardjs/img/chesspieces/wikipedia/${promoColor}Q.png`;
+  promotingPiece.src = queenLink;
 }
 
 function enpassant(start, end) {
