@@ -29,6 +29,7 @@ if (isPlayerTwo) {
 startbtn.addEventListener("click", () => {
   startbtn.remove();
   startNewGame();
+  document.querySelector("#instructions").innerHTML = "Waiting for Server...";
 });
 
 function addListeners() {
