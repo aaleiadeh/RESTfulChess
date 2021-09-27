@@ -6,10 +6,6 @@ import java.util.Iterator;
 
 import chess.Board;
 import chess.Tile;
-/**
- * King Piece class that handles King Logistics
- * @author Ahmad
- */
 public class King extends Piece{
 	public King(boolean isWhite, Board game) {
 		super(isWhite, game);

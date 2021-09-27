@@ -4,10 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import chess.Board;
 import chess.Tile;
-/**
- * Pawn Piece class that handles Pawn Logistics
- * @author Ahmad
- */
 public class Pawn extends Piece{
 	
 	@JsonIgnore public boolean enpassantable;

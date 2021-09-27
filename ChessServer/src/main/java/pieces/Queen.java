@@ -2,16 +2,7 @@ package pieces;
 
 import chess.Board;
 import chess.Tile;
-/**
- * Queen Piece class that handles Queen Logistics
- * @author Ahmad
- */
 public class Queen extends Piece{
-	/**
-	 * Creates Queen of specified color in specified board
-	 * @param isWhite Color of Queen
-	 * @param game Reference to residing Board
-	 */
 	public Queen(boolean isWhite, Board game) {
 		super(isWhite, game);
 		name = 'Q';

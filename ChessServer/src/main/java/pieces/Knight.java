@@ -2,16 +2,7 @@ package pieces;
 
 import chess.Board;
 import chess.Tile;
-/**
- * Knight Piece class that handles Knight Logistics
- * @author Ahmad
- */
 public class Knight extends Piece{
-	/**
-	 * Creates Knight of specified color in specified board
-	 * @param isWhite Color of Knight
-	 * @param game Reference to residing Board
-	 */
 	public Knight(boolean isWhite, Board game) {
 		super(isWhite, game);
 		name = 'N';

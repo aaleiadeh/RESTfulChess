@@ -2,16 +2,7 @@ package pieces;
 
 import chess.Board;
 import chess.Tile;
-/**
- * Bishop Piece class that handles Bishop Logistics
- * @author Ahmad
- */
 public class Bishop extends Piece{
-	/**
-	 * Creates Bishop of specified color in specified board
-	 * @param isWhite Color of Bishop
-	 * @param game Reference to residing Board
-	 */
 	public Bishop(boolean isWhite, Board game) {
 		super(isWhite, game);
 		name = 'B';

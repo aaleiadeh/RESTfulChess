@@ -2,16 +2,7 @@ package pieces;
 
 import chess.Board;
 import chess.Tile;
-/**
- * Rook piece class that handles Rook Logistics
- * @author Ahmad
- */
 public class Rook extends Piece{
-	/**
-	 * Creates Rook of specified color in specified board
-	 * @param isWhite Color of Rook
-	 * @param game Reference to residing Board
-	 */
 	public Rook(boolean isWhite, Board game) {
 		super(isWhite, game);
 		name = 'R';

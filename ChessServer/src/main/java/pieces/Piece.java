@@ -7,10 +7,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import chess.Board;
 import chess.Tile;
-/**
- * Generic Chess Piece parent class that defines common traits among all Pieces
- * @author Ahmad
- */
 public abstract class Piece 
 {
 	@JsonIgnore public Board game;
