@@ -181,6 +181,10 @@ public class Board
 			end.occupyingPiece.occupiedTile = null;
 			end.occupyingPiece = newQueen;
 			newQueen.occupiedTile = end;
+			if(newQueen.isWhite)
+				whitePieces.add(newQueen);
+			else
+				blackPieces.add(newQueen);
 		}
 		
 		updateAllTiles();
