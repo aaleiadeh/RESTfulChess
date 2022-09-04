@@ -30,7 +30,7 @@ startbtn.addEventListener("click", () => {
   startbtn.remove();
   startNewGame();
   document.querySelector("#instructions").innerHTML =
-    "Waiting for Server to Wakeup...";
+    "Creating Server Session... (Takes up to 15 Seconds on First Run)";
 });
 
 function addListeners() {
