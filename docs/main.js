@@ -17,8 +17,8 @@ let id = params.get("id");
 let isPlayerTwo = id === null ? false : true;
 
 let local = "http://localhost:443";
-let live = " https://noneccentric-sindy-micrographically.ngrok-free.dev";
-let server = live;
+let heroku = "https://restful-chess-server.herokuapp.com";
+let server = heroku;
 
 const startbtn = document.querySelector("#createbtn");
 if (isPlayerTwo) {
@@ -161,7 +161,10 @@ function highlight(piece) {
 }
 
 function startNewGame() {
-  fetch(`${server}/newgame`)
+  fetch(`${server}/newgame`, {
+    headers: {
+      'ngrok-skip-browser-warning': 'true'
+    }})
     .then((response) => response.json())
     .then((data) => {
       window.addEventListener("beforeunload", (event) => {
@@ -182,7 +185,10 @@ function startNewGame() {
 }
 
 function join(id) {
-  fetch(`${server}/join?id=${id}`).then(() => {
+  fetch(`${server}/join?id=${id}`, {
+    headers: {
+      'ngrok-skip-browser-warning': 'true'
+    }}).then(() => {
     window.addEventListener("beforeunload", (event) => {
       endGame(id);
     });
@@ -206,11 +212,17 @@ function endGame(id) {
   fetch(`${server}/end`, {
     method: "POST",
     body: id,
+    headers: {
+      'ngrok-skip-browser-warning': 'true'
+    }
   });
 }
 
 function rematch(id) {
-  fetch(`${server}/rematch?id=${id}`)
+  fetch(`${server}/rematch?id=${id}`, {
+    headers: {
+      'ngrok-skip-browser-warning': 'true'
+    }})
     .then((response) => response.json())
     .then((data) => {
       tilesdata = data;
@@ -231,7 +243,10 @@ function rematch(id) {
 }
 
 function establishConnection(id) {
-  fetch(`${server}/establish?id=${id}`)
+  fetch(`${server}/establish?id=${id}`, {
+    headers: {
+      'ngrok-skip-browser-warning': 'true'
+    }})
     .then((response) => response.json())
     .then((data) => {
       if (data === false) {
@@ -250,6 +265,9 @@ function sendMove(move) {
   fetch(`${server}/send`, {
     method: "POST",
     body: move,
+    headers: {
+      'ngrok-skip-browser-warning': 'true'
+    }
   })
     .then((response) => response.json())
     .then((data) => {
@@ -262,7 +280,10 @@ function sendMove(move) {
 }
 
 function getMove(id) {
-  fetch(`${server}/getmove?id=${id}`)
+  fetch(`${server}/getmove?id=${id}`, {
+    headers: {
+      'ngrok-skip-browser-warning': 'true'
+    }})
     .then((response) => response.json())
     .then((data) => {
       if (data.move === "TIMEOUT") {
