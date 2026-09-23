@@ -17,7 +17,7 @@ let id = params.get("id");
 let isPlayerTwo = id === null ? false : true;
 
 let local = "http://localhost:443";
-let live = "https://app.pieros.dev";
+let live = " https://outdoors-granny-jamie-tvs.trycloudflare.com";
 let server = live;
 
 const startbtn = document.querySelector("#createbtn");
