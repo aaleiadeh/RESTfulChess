@@ -17,7 +17,7 @@ let id = params.get("id");
 let isPlayerTwo = id === null ? false : true;
 
 let local = "http://localhost:443";
-let live = "https://https://pieros.com";
+let live = "https://pieros.com";
 let server = live;
 
 const startbtn = document.querySelector("#createbtn");
