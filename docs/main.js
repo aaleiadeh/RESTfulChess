@@ -161,10 +161,7 @@ function highlight(piece) {
 }
 
 function startNewGame() {
-  fetch(`${server}/newgame`, {
-    headers: {
-      'ngrok-skip-browser-warning': 'true'
-    }})
+  fetch(`${server}/newgame`)
     .then((response) => response.json())
     .then((data) => {
       window.addEventListener("beforeunload", (event) => {
@@ -185,10 +182,7 @@ function startNewGame() {
 }
 
 function join(id) {
-  fetch(`${server}/join?id=${id}`, {
-    headers: {
-      'ngrok-skip-browser-warning': 'true'
-    }}).then(() => {
+  fetch(`${server}/join?id=${id}`).then(() => {
     window.addEventListener("beforeunload", (event) => {
       endGame(id);
     });
@@ -211,18 +205,11 @@ function join(id) {
 function endGame(id) {
   fetch(`${server}/end`, {
     method: "POST",
-    body: id,
-    headers: {
-      'ngrok-skip-browser-warning': 'true'
-    }
-  });
+    body: id);
 }
 
 function rematch(id) {
-  fetch(`${server}/rematch?id=${id}`, {
-    headers: {
-      'ngrok-skip-browser-warning': 'true'
-    }})
+  fetch(`${server}/rematch?id=${id}`)
     .then((response) => response.json())
     .then((data) => {
       tilesdata = data;
@@ -243,10 +230,7 @@ function rematch(id) {
 }
 
 function establishConnection(id) {
-  fetch(`${server}/establish?id=${id}`, {
-    headers: {
-      'ngrok-skip-browser-warning': 'true'
-    }})
+  fetch(`${server}/establish?id=${id}`)
     .then((response) => response.json())
     .then((data) => {
       if (data === false) {
@@ -264,11 +248,7 @@ function establishConnection(id) {
 function sendMove(move) {
   fetch(`${server}/send`, {
     method: "POST",
-    body: move,
-    headers: {
-      'ngrok-skip-browser-warning': 'true'
-    }
-  })
+    body: move,)
     .then((response) => response.json())
     .then((data) => {
       if (data === true) {
@@ -280,10 +260,7 @@ function sendMove(move) {
 }
 
 function getMove(id) {
-  fetch(`${server}/getmove?id=${id}`, {
-    headers: {
-      'ngrok-skip-browser-warning': 'true'
-    }})
+  fetch(`${server}/getmove?id=${id}`)
     .then((response) => response.json())
     .then((data) => {
       if (data.move === "TIMEOUT") {
