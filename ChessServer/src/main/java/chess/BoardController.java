@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin(origins={"https://aaleiadeh.github.io/","https://app.pieros.dev"})
+@CrossOrigin(origins={"https://aaleiadeh.github.io","https://app.pieros.dev"})
 public class BoardController {
 	public Hashtable<Integer, Board> gameTable = new Hashtable<Integer, Board>();
 	public int id = 0;
