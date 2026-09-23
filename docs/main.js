@@ -17,7 +17,7 @@ let id = params.get("id");
 let isPlayerTwo = id === null ? false : true;
 
 let local = "http://localhost:443";
-let live = "app.pieros.dev";
+let live = "https://app.pieros.dev";
 let server = live;
 
 const startbtn = document.querySelector("#createbtn");
@@ -205,7 +205,8 @@ function join(id) {
 function endGame(id) {
   fetch(`${server}/end`, {
     method: "POST",
-    body: id);
+    body: id,
+  });
 }
 
 function rematch(id) {
@@ -248,7 +249,8 @@ function establishConnection(id) {
 function sendMove(move) {
   fetch(`${server}/send`, {
     method: "POST",
-    body: move,)
+    body: move,
+  })
     .then((response) => response.json())
     .then((data) => {
       if (data === true) {
